@@ -1,0 +1,52 @@
+package me.drex.fafpatch.impl.block;
+
+import eu.pb4.factorytools.api.block.FactoryBlock;
+import eu.pb4.factorytools.api.virtualentity.BlockModel;
+import eu.pb4.polymer.blocks.api.PolymerTexturedBlock;
+import eu.pb4.polymer.virtualentity.api.ElementHolder;
+import me.drex.fafpatch.impl.model.generic.BSMMParticleBlock;
+import me.drex.fafpatch.impl.model.generic.BlockStateModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
+import xyz.nucleoid.packettweaker.PacketContext;
+
+import java.util.function.Function;
+
+public record BaseFactoryBlock(BlockState clientState, boolean tick, Function<BlockState, BlockModel> modelFunction) implements FactoryBlock, PolymerTexturedBlock, BSMMParticleBlock {
+    public static final BaseFactoryBlock BARRIER = new BaseFactoryBlock(Blocks.BARRIER. defaultBlockState(), false, BlockStateModel::longRange);
+
+    @Override
+    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        return clientState;
+    }
+
+    @Override
+    public @Nullable ElementHolder createElementHolder(ServerLevel world, BlockPos pos, BlockState initialBlockState) {
+        return this.modelFunction.apply(initialBlockState);
+    }
+
+    @Override
+    public boolean tickElementHolder(ServerLevel world, BlockPos pos, BlockState initialBlockState) {
+        return this.tick;
+    }
+
+    public BaseFactoryBlock withModel(Function<BlockState, BlockModel> modelFunction) {
+        return new BaseFactoryBlock(this.clientState, this.tick, modelFunction);
+    }
+
+    public BaseFactoryBlock withTick(boolean tick) {
+        return new BaseFactoryBlock(this.clientState, tick, this.modelFunction);
+    }
+
+    @Override
+    public boolean isIgnoringBlockInteractionPlaySoundExceptedEntity(BlockState state, ServerPlayer player, InteractionHand hand, ItemStack stack, ServerLevel world, BlockHitResult blockHitResult) {
+        return true;
+    }
+}
