@@ -165,7 +165,7 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
             if (entity.hasPose(Pose.SLEEPING)) {
                 Direction direction = livingEntity.getBedOrientation();
                 if (direction != null) {
-                    float f = livingEntity.getEyeHeight() - 0.1F;
+                    float f = livingEntity.getEyeHeight(Pose.STANDING) - 0.1F;
                     STACK.translate((float) (-direction.getStepX()) * f, 0.0F, (float) (-direction.getStepZ()) * f);
                 }
             }

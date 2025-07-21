@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.0.7-1] - 2025-07-21
 ### Fixed
 - Entity models clipping into nearby blocks
+- Bed sleeping position
 
 ## [4.0.7-0] - 2025-07-21
 init
