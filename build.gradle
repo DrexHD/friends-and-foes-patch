@@ -61,7 +61,7 @@ publishMods {
     type = STABLE
     changelog = fetchChangelog()
 
-    displayName = "Polymer Patch for Friends&Foes ${version.get()}"
+    displayName = "Polymer Patch for Friends&Foes ${project.friends_and_foes_version}"
     modLoaders.add("fabric")
     modLoaders.add("quilt")
 
