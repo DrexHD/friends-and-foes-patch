@@ -3,18 +3,16 @@ package me.drex.fafpatch.impl.entity.model;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariant;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
-import com.faboslav.friendsandfoes.common.entity.IllusionerEntity;
-import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
-import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+import com.faboslav.friendsandfoes.common.entity.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import me.drex.fafpatch.impl.entity.MoobloomElementHolder;
+import me.drex.fafpatch.impl.entity.holder.MoobloomElementHolder;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.LayerDefinition;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.MeshTransformer;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
+import me.drex.fafpatch.impl.entity.model.entity.*;
 import me.drex.fafpatch.impl.res.ResourcePackGenerator;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -90,7 +88,7 @@ public interface EntityModels {
 
     PolyModelInstance<WildfireEntityModel> WILDFIRE = create(WildfireEntityModel::new, WildfireEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/wildfire/wildfire"));
     PolyModelInstance<IllagerModel<IllusionerEntity>> ILLUSIONER = create(IllagerModel::new, IllagerModel.createBodyLayer(), FriendsAndFoes.makeID("entity/illusioner/illusioner"));
-    PolyModelInstance<IllagerModel<IllusionerEntity>> ICELOGER = create(IllagerModel::new, IllagerModel.createBodyLayer(), FriendsAndFoes.makeID("entity/illager/iceologer"));
+    PolyModelInstance<IllagerModel<IceologerEntity>> ICEOLOGER = create(IllagerModel::new, IllagerModel.createBodyLayer(), FriendsAndFoes.makeID("entity/illager/iceologer"));
     EnumMap<MaulerEntity.Type, PolyModelInstance<MaulerEntityModel>> MAULER = Util.make(new EnumMap<>(MaulerEntity.Type.class), m -> {
         for (var type : MaulerEntity.Type.values()) {
             m.put(type, create(MaulerEntityModel::new, MaulerEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/mauler/mauler_" + type.getName())));

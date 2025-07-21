@@ -1,4 +1,4 @@
-package me.drex.fafpatch.impl.entity.model;
+package me.drex.fafpatch.impl.entity.model.entity;
 
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
 import net.minecraft.util.Mth;

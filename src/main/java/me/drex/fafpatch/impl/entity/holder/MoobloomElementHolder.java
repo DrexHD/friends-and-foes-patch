@@ -1,8 +1,10 @@
-package me.drex.fafpatch.impl.entity;
+package me.drex.fafpatch.impl.entity.holder;
 
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import eu.pb4.polymer.virtualentity.api.elements.BlockDisplayElement;
-import me.drex.fafpatch.impl.entity.model.CowModel;
+import me.drex.fafpatch.impl.entity.SimpleElementHolder;
+import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
+import me.drex.fafpatch.impl.entity.model.entity.CowModel;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -10,21 +12,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4fStack;
 
-public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity, CowModel<MoobloomEntity>> {
+public class MoobloomElementHolder extends SimpleElementHolder<MoobloomEntity, CowModel<MoobloomEntity>> {
 
     private final BlockDisplayElement[] flowerModels = new BlockDisplayElement[4];
 
     public MoobloomElementHolder(MoobloomEntity entity) {
         super(entity);
         for (int i = 0; i < 4; i++) {
-            var element = new BlockDisplayElement();
-            element.setInterpolationDuration(1);
-            element.setTeleportDuration(3);
-            element.setViewRange(2);
-            element.setOffset(new Vec3(0, 0.1, 0));
+            BlockDisplayElement element = EntityModelHelper.createBlockDisplay();
             addElement(element);
             flowerModels[i] = element;
         }
@@ -32,7 +29,7 @@ public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity
     }
 
     @Override
-    void renderServerSide(Matrix4fStack stack) {
+    protected void renderServerSide(Matrix4fStack stack) {
         super.renderServerSide(stack);
         renderFlowers(stack);
     }
@@ -96,7 +93,7 @@ public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity
 
         flowerModels[index].setBlockState(flowerState);
         flowerModels[index].setTransformation(stack);
-
+        EntityModelHelper.updateDisplayElement(flowerModels[index], this.entity);
     }
 
     public record RenderState(String variant, boolean baby) {

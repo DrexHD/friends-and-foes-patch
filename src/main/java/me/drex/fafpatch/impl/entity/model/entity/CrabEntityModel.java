@@ -1,4 +1,4 @@
-package me.drex.fafpatch.impl.entity.model;
+package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;

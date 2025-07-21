@@ -1,21 +1,21 @@
-package me.drex.fafpatch.impl.entity;
+package me.drex.fafpatch.impl.entity.holder;
 
 import com.faboslav.friendsandfoes.common.entity.IllusionerEntity;
 import com.mojang.math.Axis;
-import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
-import me.drex.fafpatch.impl.entity.model.IllagerModel;
+import me.drex.fafpatch.impl.entity.SimpleElementHolder;
+import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
+import me.drex.fafpatch.impl.entity.model.entity.IllagerModel;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4fStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class IllusionerElementHolder extends VanillishElementHolder<IllusionerEntity, IllagerModel<IllusionerEntity>> {
+public class IllusionerElementHolder extends SimpleElementHolder<IllusionerEntity, IllagerModel<IllusionerEntity>> {
 
     private final Map<HumanoidArm, ItemDisplayElement> handItems = new HashMap<>();
 
@@ -26,19 +26,16 @@ public class IllusionerElementHolder extends VanillishElementHolder<IllusionerEn
     }
 
     private void setupHandItem(HumanoidArm humanoidArm, ItemDisplayContext context) {
-        var itemElement = ItemDisplayElementUtil.createSimple(ItemStack.EMPTY);
+
+        var itemElement = EntityModelHelper.createItemDisplay(ItemStack.EMPTY);
         itemElement.setDisplaySize(this.entity.getBbWidth() * 2, this.entity.getBbHeight() * 2);
-        itemElement.setInterpolationDuration(1);
-        itemElement.setTeleportDuration(3);
-        itemElement.setViewRange(2);
         itemElement.setItemDisplayContext(context);
-        itemElement.setOffset(new Vec3(0, 0.1, 0));
         addElement(itemElement);
         handItems.put(humanoidArm, itemElement);
     }
 
     @Override
-    void renderServerSide(Matrix4fStack stack) {
+    protected void renderServerSide(Matrix4fStack stack) {
         super.renderServerSide(stack);
         renderHandItem(HumanoidArm.LEFT, stack);
         renderHandItem(HumanoidArm.RIGHT, stack);

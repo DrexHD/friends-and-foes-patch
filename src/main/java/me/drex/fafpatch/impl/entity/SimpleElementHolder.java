@@ -1,26 +1,20 @@
 package me.drex.fafpatch.impl.entity;
 
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.mojang.math.Axis;
-import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.elements.InteractionElement;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.VirtualElement;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
-import me.drex.fafpatch.impl.entity.model.EntityModels;
+import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
-import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -28,27 +22,14 @@ import org.joml.Matrix4fStack;
 import java.util.*;
 import java.util.function.Function;
 
-public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> extends ElementHolder {
-    public static final IdentityHashMap<EntityType<?>, PolyModelInstance<?>> DEFAULT_MODEL = Util.make(() -> {
-        var m = new IdentityHashMap<EntityType<?>, PolyModelInstance<?>>();
-        m.put(FriendsAndFoesEntityTypes.ICE_CHUNK.get(), EntityModels.ICE_CHUNK);
-        m.put(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), EntityModels.TUFF_GOLEM);
-        m.put(FriendsAndFoesEntityTypes.RASCAL.get(), EntityModels.RASCAL);
-        m.put(FriendsAndFoesEntityTypes.GLARE.get(), EntityModels.GLARE);
-        m.put(FriendsAndFoesEntityTypes.CRAB.get(), EntityModels.CRAB);
-        m.put(FriendsAndFoesEntityTypes.WILDFIRE.get(), EntityModels.WILDFIRE);
-        m.put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), EntityModels.ICELOGER);
-        m.put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), EntityModels.ILLUSIONER);
-        m.put(EntityType.VILLAGER, EntityModels.VILLAGER);
-        return m;
-    });
+public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> extends ElementHolder {
 
     public static final ResourceLocation MAIN_LAYER = FriendsAndFoesPatch.id("main_layer");
     static final Matrix4fStack STACK = new Matrix4fStack(64);
     private final Map<PolyModelInstance<X>, Map<ModelPart, ItemDisplayElement>> elements = new IdentityHashMap<>();
-    final T entity;
-    protected final InteractionElement interaction;
-    protected final LeadAttachmentElement leadAttachment = new LeadAttachmentElement();
+    protected final T entity;
+    public final InteractionElement interaction;
+    public final LeadAttachmentElement leadAttachment = new LeadAttachmentElement();
 
     final Map<ResourceLocation, PolyModelInstance<X>> layerModels = new HashMap<>();
     final List<ConditionalLayer<?>> conditionalLayers = new ArrayList<>();
@@ -56,7 +37,7 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
 
     private boolean noTick = true;
 
-    public VanillishElementHolder(T entity) {
+    public SimpleElementHolder(T entity) {
         this.entity = entity;
         var interaction = VirtualElement.InteractionHandler.redirect(entity);
         this.interaction = new InteractionElement(interaction);
@@ -110,16 +91,12 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
                 if (stack != null) {
                     var element = oldElements.get(part);
                     if (element == null) {
-                        element = ItemDisplayElementUtil.createSimple(stack);
-                        element.setDisplaySize(this.entity.getBbWidth() * 2, this.entity.getBbHeight() * 2);
-                        element.setInterpolationDuration(1);
-                        element.setTeleportDuration(3);
-                        element.setViewRange(2);
-                        element.setOffset(new Vec3(0, 0.1, 0));
+                        element = EntityModelHelper.createItemDisplay(stack);
                     } else {
                         element.setItem(stack);
                         oldElements.remove(part);
                     }
+                    EntityModelHelper.updateDisplayElement(element, this.entity);
                     newElements.put(part, element);
                     this.addElement(element);
                 }
@@ -130,10 +107,6 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
         for (var old : oldElements.values()) {
             this.removeElement(old);
         }
-
-//        if (!noTick) {
-//            this.tick();
-//        }
     }
 
     private static float getYaw(Direction direction) {
@@ -175,7 +148,9 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
 
     private void renderModel(PolyModelInstance<X> model) {
         STACK.pushMatrix();
-        STACK.translate(0.0F, -0.1f, 0.0F);
+        // ensure the element doesn't clip into nearby blocks
+        EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+        STACK.translate(0.0F, -dimensions.height() / 2, 0.0F);
         if (entity instanceof LivingEntity livingEntity) {
             var hurt = livingEntity.hurtTime > 0 || livingEntity.deathTime > 0;
             if (this.hurt != hurt) {
@@ -211,10 +186,10 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
         STACK.popMatrix();
     }
 
-    void renderServerSide(Matrix4fStack stack) {
+    protected void renderServerSide(Matrix4fStack stack) {
     }
 
-    float getEntityScale() {
+    public float getEntityScale() {
         return 1;
     }
 
@@ -228,6 +203,7 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
             this.removeElement(element);
         } else {
             element.setTransformation(matrix4f);
+            EntityModelHelper.updateDisplayElement(element, this.entity);
             element.startInterpolationIfDirty();
             this.addElement(element);
         }

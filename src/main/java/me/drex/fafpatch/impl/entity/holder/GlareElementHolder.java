@@ -1,13 +1,14 @@
-package me.drex.fafpatch.impl.entity;
+package me.drex.fafpatch.impl.entity.holder;
 
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
+import me.drex.fafpatch.impl.entity.SimpleElementHolder;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
-import me.drex.fafpatch.impl.entity.model.GlareEntityModel;
+import me.drex.fafpatch.impl.entity.model.entity.GlareEntityModel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 
-public class GlareElementHolder extends VanillishElementHolder<GlareEntity, GlareEntityModel> {
+public class GlareElementHolder extends SimpleElementHolder<GlareEntity, GlareEntityModel> {
 
     public static final ResourceLocation FLOWERING_LAYER = FriendsAndFoesPatch.id("flowering_layer");
 
@@ -17,7 +18,7 @@ public class GlareElementHolder extends VanillishElementHolder<GlareEntity, Glar
     }
 
     @Override
-    float getEntityScale() {
+    public float getEntityScale() {
         return entity.isBaby() ? GlareEntity.BABY_SCALE : GlareEntity.ADULT_SCALE;
     }
 

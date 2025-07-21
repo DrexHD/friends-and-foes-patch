@@ -1,12 +1,13 @@
-package me.drex.fafpatch.impl.entity;
+package me.drex.fafpatch.impl.entity.holder;
 
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
+import me.drex.fafpatch.impl.entity.SimpleElementHolder;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
-import me.drex.fafpatch.impl.entity.model.VillagerModel;
+import me.drex.fafpatch.impl.entity.model.entity.VillagerModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.Villager;
 
-public class VillagerElementHolder extends VanillishElementHolder<Villager, VillagerModel> {
+public class VillagerElementHolder extends SimpleElementHolder<Villager, VillagerModel> {
     public static final ResourceLocation PROFESSION_LEVEL_LAYER = FriendsAndFoesPatch.id("villager_profession_level_layer");
     public static final ResourceLocation PROFESSION_LAYER = FriendsAndFoesPatch.id("villager_profession_layer");
     public static final ResourceLocation TYPE_LAYER = FriendsAndFoesPatch.id("villager_type_layer");
