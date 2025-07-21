@@ -21,6 +21,7 @@
 	"depends": {
 		"fabricloader": ">=0.16.14",
 		"java": ">=21",
+		"friendsandfoes": "*",
 		"fabric-api": "*"
 	}
 }

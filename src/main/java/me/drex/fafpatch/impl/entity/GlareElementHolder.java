@@ -13,13 +13,12 @@ public class GlareElementHolder extends VanillishElementHolder<GlareEntity, Glar
 
     public GlareElementHolder(GlareEntity entity) {
         super(entity);
-        addConditionalLayer(RenderState::new, MAIN_LAYER, renderState -> EntityModels.GLARE.get(renderState.regular()));
-        addConditionalLayer(RenderState::new, FLOWERING_LAYER, renderState -> {
-            if (renderState.flowering()) {
-                return EntityModels.GLARE.get(renderState);
-            }
-            return null;
-        });
+        addConditionalLayer(GlareElementHolder::shouldRenderFlowers, FLOWERING_LAYER, flowers -> flowers ? EntityModels.FLOWERING_GLARE : null);
+    }
+
+    @Override
+    float getEntityScale() {
+        return entity.isBaby() ? GlareEntity.BABY_SCALE : GlareEntity.ADULT_SCALE;
     }
 
     private static boolean shouldRenderFlowers(GlareEntity entity) {
@@ -27,15 +26,5 @@ public class GlareElementHolder extends VanillishElementHolder<GlareEntity, Glar
 
         return "Anna".equals(string)
             || entity.isTame();
-    }
-
-    public record RenderState(boolean flowering, boolean baby) {
-        public RenderState(GlareEntity entity) {
-            this(shouldRenderFlowers(entity), entity.isBaby());
-        }
-
-        public RenderState regular() {
-            return new RenderState(false, baby);
-        }
     }
 }

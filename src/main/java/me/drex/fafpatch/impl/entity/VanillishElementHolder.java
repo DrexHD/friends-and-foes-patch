@@ -34,6 +34,8 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
         m.put(FriendsAndFoesEntityTypes.ICE_CHUNK.get(), EntityModels.ICE_CHUNK);
         m.put(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), EntityModels.TUFF_GOLEM);
         m.put(FriendsAndFoesEntityTypes.RASCAL.get(), EntityModels.RASCAL);
+        m.put(FriendsAndFoesEntityTypes.GLARE.get(), EntityModels.GLARE);
+        m.put(FriendsAndFoesEntityTypes.CRAB.get(), EntityModels.CRAB);
         m.put(FriendsAndFoesEntityTypes.WILDFIRE.get(), EntityModels.WILDFIRE);
         m.put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), EntityModels.ICELOGER);
         m.put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), EntityModels.ILLUSIONER);
@@ -78,10 +80,6 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
     }
 
     public void setLayer(ResourceLocation id, PolyModelInstance<X> layer) {
-        setLayer(id, layer, 0);
-    }
-
-    public void setLayer(ResourceLocation id, PolyModelInstance<X> layer, float offset) {
         if (layerModels.get(id) == layer) {
             return;
         }
@@ -202,7 +200,7 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
             this.setupTransforms(livingEntity, STACK, livingEntity.getVisualRotationYInDegrees(), g);
             STACK.scale(-1.0F, -1.0F, 1.0F);
 
-//            STACK.scale(livingEntity.getScale());
+            STACK.scale(getEntityScale());
             STACK.translate(0.0F, -1.501F, 0.0F);
         }
 
@@ -214,6 +212,10 @@ public class VanillishElementHolder<T extends Entity, X extends EntityModel<T>> 
     }
 
     void renderServerSide(Matrix4fStack stack) {
+    }
+
+    float getEntityScale() {
+        return 1;
     }
 
     private void updateElement(PolyModelInstance<X> model, ModelPart part, Matrix4f matrix4f, boolean hidden) {

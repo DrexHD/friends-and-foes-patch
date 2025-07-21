@@ -29,6 +29,7 @@ public class FriendsAndFoesPatch implements ModInitializer {
     @Override
     public void onInitialize() {
         PolymerResourcePackUtils.addModAssets(FriendsAndFoes.MOD_ID);
+        PolymerResourcePackUtils.addModAssets("flowerymooblooms");
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         ResourcePackExtras.forDefault().addBridgedModelsFolder(FriendsAndFoes.makeID("block"));
         ResourcePackExtras.forDefault().addBridgedModelsFolder(FriendsAndFoes.makeID("entity"), (id, b) -> {

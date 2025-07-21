@@ -1,13 +1,15 @@
 package me.drex.fafpatch.impl.entity.model;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.api.MoobloomVariant;
+import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.entity.IllusionerEntity;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import me.drex.fafpatch.impl.entity.GlareElementHolder;
+import me.drex.fafpatch.impl.entity.MoobloomElementHolder;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.LayerDefinition;
@@ -33,31 +35,24 @@ public interface EntityModels {
             m.put(state, create(CopperGolemEntityModel::new, CopperGolemEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/copper_golem/" + prefix + "copper_golem")));
         }
     });
-    PolyModelInstance<CowModel<MoobloomEntity>> MOOBLOOM = create(CowModel::new, CowModel.createBodyLayer(), FriendsAndFoes.makeID("entity/moobloom/buttercup_moobloom"));
-    PolyModelInstance<CowModel<MoobloomEntity>> MOOBLOOM_BABY = create(CowModel::new, CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER), FriendsAndFoes.makeID("entity/moobloom/buttercup_moobloom"));
 
-    PolyModelInstance<CrabEntityModel> CRAB = create(CrabEntityModel::new, CrabEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/crab/crab"));
-    PolyModelInstance<CrabEntityModel> CRAB_BABY = create(CrabEntityModel::new, CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER), FriendsAndFoes.makeID("entity/crab/crab"));
-
-//    PolyModelInstance<GlareEntityModel> GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER), FriendsAndFoes.makeID("entity/glare/glare"));
-//    PolyModelInstance<GlareEntityModel> GLARE_BABY = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.BABY_TRANSFORMER), FriendsAndFoes.makeID("entity/glare/glare"));
-
-//    PolyModelInstance<GlareEntityModel> FLOWERING_GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/glare/flowering_glare"));
-
-    Map<GlareElementHolder.RenderState, PolyModelInstance<GlareEntityModel>> GLARE = new HashMap<>() {{
-        boolean[] bools = {false, true};
-        for (boolean isBaby : bools) {
-            for (boolean isFlowering : bools) {
-                String texture = isFlowering ? "flowering_glare" : "glare";
-                LayerDefinition modelData = GlareEntityModel.getTexturedModelData();
+    Map<MoobloomElementHolder.RenderState, PolyModelInstance<CowModel<MoobloomEntity>>> MOOBLOOM = new HashMap<>() {{
+        for (boolean isBaby : new boolean[]{false, true}) {
+            for (MoobloomVariant moobloomVariant : MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariants()) {
+                LayerDefinition modelData = CowModel.createBodyLayer();
                 if (isBaby) {
-                    modelData = modelData.apply(GlareEntityModel.BABY_TRANSFORMER);
+                    modelData = modelData.apply(CowModel.BABY_TRANSFORMER);
                 }
 
-                put(new GlareElementHolder.RenderState(isFlowering, isBaby), create(GlareEntityModel::new, modelData, FriendsAndFoes.makeID("entity/glare/" + texture)));
+                put(new MoobloomElementHolder.RenderState(moobloomVariant.getName(), isBaby), create(CowModel::new, modelData, FriendsAndFoes.makeID("entity/moobloom/" + moobloomVariant.getName() + "_moobloom")));
             }
         }
     }};
+
+    PolyModelInstance<CrabEntityModel> CRAB = create(CrabEntityModel::new, CrabEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/crab/crab"));
+
+    PolyModelInstance<GlareEntityModel> GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/glare/glare"));
+    PolyModelInstance<GlareEntityModel> FLOWERING_GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/glare/flowering_glare"));
 
     PolyModelInstance<IceologerIceChunkModel> ICE_CHUNK = create(IceologerIceChunkModel::new, IceologerIceChunkModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/illager/ice_chunk"));
     PolyModelInstance<RascalEntityModel> RASCAL = create(RascalEntityModel::new, RascalEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/rascal/rascal"));

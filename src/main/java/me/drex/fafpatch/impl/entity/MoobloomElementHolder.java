@@ -4,7 +4,8 @@ import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import eu.pb4.polymer.virtualentity.api.elements.BlockDisplayElement;
 import me.drex.fafpatch.impl.entity.model.CowModel;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
-import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +15,6 @@ import org.joml.Matrix4fStack;
 
 public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity, CowModel<MoobloomEntity>> {
 
-    //    private final ItemDisplayElement[] flowerModels = new ItemDisplayElement[4];
     private final BlockDisplayElement[] flowerModels = new BlockDisplayElement[4];
 
     public MoobloomElementHolder(MoobloomEntity entity) {
@@ -25,15 +25,10 @@ public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity
             element.setTeleportDuration(3);
             element.setViewRange(2);
             element.setOffset(new Vec3(0, 0.1, 0));
-//            var element = ItemDisplayElementUtil.createSimple();
-//            element.setViewRange(100);
-//            element.setTeleportDuration(0);
-//            element.setItemDisplayContext(ItemDisplayContext.NONE);
-//            element.setYaw(180);
             addElement(element);
             flowerModels[i] = element;
         }
-        addConditionalLayer(AgeableMob::isBaby, MAIN_LAYER, isBaby -> isBaby? EntityModels.MOOBLOOM_BABY : EntityModels.MOOBLOOM);
+        addConditionalLayer(RenderState::new, MAIN_LAYER, EntityModels.MOOBLOOM::get);
     }
 
     @Override
@@ -93,16 +88,20 @@ public class MoobloomElementHolder extends VanillishElementHolder<MoobloomEntity
     }
 
     private void renderFlower(Matrix4fStack stack, BlockState flowerState, int index) {
-        flowerModels[index].setBlockState(Blocks.DANDELION.defaultBlockState());
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(flowerState.getBlock());
+        if (!id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+            // rendering modded blocks is annoying
+            flowerState = Blocks.DANDELION.defaultBlockState();
+        }
+
+        flowerModels[index].setBlockState(flowerState);
         flowerModels[index].setTransformation(stack);
-//        List<BlockStateModelManager.ModelGetter> modelGetters = BlockStateModelManager.get(flowerState);
-//        BlockStateModelManager.ModelData model = modelGetters.getFirst().getModel(RandomSource.create(index));
-//
-//        var element = flowerModels[index];
-//        element.setItem(model.stack());
-//        stack.pushMatrix();
-//        element.setTransformation(stack.rotate(model.quaternionfc()));
-//        stack.popMatrix();
+
     }
 
+    public record RenderState(String variant, boolean baby) {
+        public RenderState(MoobloomEntity moobloomEntity) {
+            this(moobloomEntity.getVariant().getName(), moobloomEntity.isBaby());
+        }
+    }
 }

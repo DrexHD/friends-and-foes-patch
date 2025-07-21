@@ -1,9 +1,13 @@
+import org.jetbrains.changelog.Changelog
+
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
+    id "me.modmuss50.mod-publish-plugin" version "0.8.4"
+    id 'org.jetbrains.changelog' version '2.+'
 }
 
-version = project.mod_version
+version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
 base {
@@ -29,31 +33,51 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation("maven.modrinth:friends-and-foes:fabric-4.0.7+mc1.21.6") {
+    modImplementation("maven.modrinth:friends-and-foes:${project.friends_and_foes_version}") {
         exclude(group: "net.fabricmc")
     }
 
-    modImplementation "dev.isxander:yet-another-config-lib:3.7.1+1.21.6-fabric"
-    modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.6:3.6.0")
+    modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+    modImplementation("com.teamresourceful.resourcefullib:${project.resourcefullib_version}")
 
-    modImplementation include('eu.pb4:factorytools:0.7.2+1.21.7')
-    modImplementation 'eu.pb4:polymer-core:0.13.8+1.21.8'
-    modImplementation('eu.pb4:polymer-blocks:0.13.8+1.21.8') {
+    modImplementation include("eu.pb4:factorytools:${project.factorytools_version}")
+    modImplementation "eu.pb4:polymer-core:${project.polymer_version}"
+    modImplementation("eu.pb4:polymer-blocks:${project.polymer_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation 'eu.pb4:polymer-resource-pack:0.13.8+1.21.8'
-    modImplementation('eu.pb4:polymer-sound-patcher:0.13.8+1.21.8') {
+    modImplementation "eu.pb4:polymer-resource-pack:${project.polymer_version}"
+    modImplementation("eu.pb4:polymer-sound-patcher:${project.polymer_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation 'eu.pb4:polymer-resource-pack-extras:0.13.8+1.21.8'
-    modImplementation('eu.pb4:polymer-autohost:0.13.8+1.21.8') {
+    modImplementation "eu.pb4:polymer-resource-pack-extras:${project.polymer_version}"
+    modImplementation("eu.pb4:polymer-autohost:${project.polymer_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation 'eu.pb4:polymer-virtual-entity:0.13.8+1.21.8'
-
-
-//	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.3")))
+    modImplementation "eu.pb4:polymer-virtual-entity:${project.polymer_version}"
 }
+
+publishMods {
+    file = remapJar.archiveFile
+    type = STABLE
+    changelog = fetchChangelog()
+
+    displayName = "Polymer Patch for Friends&Foes ${version.get()}"
+    modLoaders.add("fabric")
+    modLoaders.add("quilt")
+
+    modrinth {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "67luhYti"
+        minecraftVersions.add(project.minecraft_version)
+        requires("friends-and-foes", "polymer")
+    }
+    github {
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        repository = providers.environmentVariable("GITHUB_REPOSITORY").getOrElse("DrexHD/dryrun")
+        commitish = providers.environmentVariable("GITHUB_REF_NAME").getOrElse("dryrun")
+    }
+}
+
 processResources {
     inputs.property "version", project.version
 
@@ -99,5 +123,17 @@ publishing {
         // Notice: This block does NOT have the same function as the block in the top level.
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
+    }
+}
+
+private String fetchChangelog() {
+    def log = getChangelog.changelog.get()
+    if (log.has(project.mod_version)) {
+        return log.renderItem(
+                log.get(project.mod_version).withHeader(false),
+                Changelog.OutputType.MARKDOWN
+        )
+    } else {
+        return ""
     }
 }
