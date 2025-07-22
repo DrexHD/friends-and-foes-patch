@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.7-2] - 2025-07-22
+### Fixed
+- Clients disconnecting when animated entities pickup items
+
 ## [4.0.7-1] - 2025-07-21
 ### Fixed
 - Entity models clipping into nearby blocks
