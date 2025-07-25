@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [4.0.7-2] - 2025-07-22
+## [4.0.7-2] - 2025-07-25
 ### Fixed
 - Clients disconnecting when animated entities pickup items
+- Crash when other mods create entities very early
 
 ## [4.0.7-1] - 2025-07-21
 ### Fixed

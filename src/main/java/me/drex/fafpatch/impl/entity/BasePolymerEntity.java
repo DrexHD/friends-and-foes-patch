@@ -19,13 +19,17 @@ import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public record BasePolymerEntity(Entity entity) implements PolymerEntity {
     public static final ResourceLocation MODEL = FriendsAndFoes.makeID("model");
 
     public BasePolymerEntity {
-        SimpleElementHolder<?, ?> holder = AnimatedEntities.ENTITY_FACTORIES.get(entity.getType()).apply(entity);
-        IdentifiedUniqueEntityAttachment.ofTicking(MODEL, holder, entity);
+        Function<Entity, ? extends SimpleElementHolder<?, ?>> factory = AnimatedEntities.ENTITY_FACTORIES.get(entity.getType());
+        if (factory != null) {
+            SimpleElementHolder<?, ?> holder = factory.apply(entity);
+            IdentifiedUniqueEntityAttachment.ofTicking(MODEL, holder, entity);
+        }
     }
 
     @Override
