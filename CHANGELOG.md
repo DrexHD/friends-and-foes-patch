@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.7-3] - 2025-07-28
 ### Changed
 - Don't use any "free block states"
+- Move generic block code to FactoryTools
 
 ### Fixed
 - Illager model shoulder always rendering

@@ -37,8 +37,8 @@ public class TuffGolemElementHolder extends SimpleElementHolder<TuffGolemEntity,
     }
 
     @Override
-    protected void renderServerSide(Matrix4fStack stack) {
-        super.renderServerSide(stack);
+    protected void renderSpecialLayers(Matrix4fStack stack) {
+        super.renderSpecialLayers(stack);
         renderItem(stack);
     }
 

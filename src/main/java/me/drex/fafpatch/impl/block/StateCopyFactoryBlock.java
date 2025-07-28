@@ -1,11 +1,11 @@
 package me.drex.fafpatch.impl.block;
 
 import eu.pb4.factorytools.api.block.FactoryBlock;
+import eu.pb4.factorytools.api.block.model.generic.BSMMParticleBlock;
+import eu.pb4.factorytools.api.block.model.generic.ShiftyBlockStateModel;
 import eu.pb4.factorytools.api.virtualentity.BlockModel;
 import eu.pb4.polymer.blocks.api.PolymerTexturedBlock;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
-import me.drex.fafpatch.impl.model.generic.BSMMParticleBlock;
-import me.drex.fafpatch.impl.model.generic.ShiftyBlockStateModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,9 +18,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public record StateCopyFactoryBlock(Block clientBlock, Function<BlockState, BlockModel> modelFunction) implements FactoryBlock, PolymerTexturedBlock, BSMMParticleBlock {
+public record StateCopyFactoryBlock(Block clientBlock,
+                                    BiFunction<BlockState, BlockPos, BlockModel> modelFunction) implements FactoryBlock, PolymerTexturedBlock, BSMMParticleBlock {
     public static final StateCopyFactoryBlock EGG = new StateCopyFactoryBlock(Blocks.TURTLE_EGG, ShiftyBlockStateModel::longRange);
     public static final StateCopyFactoryBlock BUTTON = new StateCopyFactoryBlock(Blocks.STONE_BUTTON, ShiftyBlockStateModel::longRange);
     public static final StateCopyFactoryBlock POT = new StateCopyFactoryBlock(Blocks.FLOWER_POT, ShiftyBlockStateModel::longRange);
@@ -33,7 +34,7 @@ public record StateCopyFactoryBlock(Block clientBlock, Function<BlockState, Bloc
 
     @Override
     public @Nullable ElementHolder createElementHolder(ServerLevel world, BlockPos pos, BlockState initialBlockState) {
-        return this.modelFunction.apply(initialBlockState);
+        return this.modelFunction.apply(initialBlockState, pos);
     }
 
     @Override

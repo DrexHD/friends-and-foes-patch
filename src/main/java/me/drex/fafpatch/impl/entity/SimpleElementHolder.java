@@ -1,6 +1,6 @@
 package me.drex.fafpatch.impl.entity;
 
-import com.mojang.math.Axis;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityModelTransforms;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.elements.InteractionElement;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
@@ -10,11 +10,11 @@ import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -109,16 +109,6 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
         }
     }
 
-    private static float getYaw(Direction direction) {
-        return switch (direction) {
-            case SOUTH -> 90.0F;
-            case WEST -> 0.0F;
-            case NORTH -> 270.0F;
-            case EAST -> 180.0F;
-            default -> 0.0F;
-        };
-    }
-
     @Override
     public boolean startWatching(ServerGamePacketListenerImpl player) {
         if (noTick) {
@@ -161,32 +151,17 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
                     entry.getValue().setItem(map.apply(entry.getKey()));
                 }
             }
-
-            if (entity.hasPose(Pose.SLEEPING)) {
-                Direction direction = livingEntity.getBedOrientation();
-                if (direction != null) {
-                    float f = livingEntity.getEyeHeight(Pose.STANDING) - 0.1F;
-                    STACK.translate((float) (-direction.getStepX()) * f, 0.0F, (float) (-direction.getStepZ()) * f);
-                }
-            }
-
-            float g = livingEntity.getScale();
-            STACK.scale(g);
-            this.setupTransforms(livingEntity, STACK, livingEntity.getVisualRotationYInDegrees(), g);
-            STACK.scale(-1.0F, -1.0F, 1.0F);
-
-            STACK.scale(getEntityScale());
-            STACK.translate(0.0F, -1.501F, 0.0F);
+            EntityModelTransforms.livingEntityTransform(livingEntity, STACK, matrix4f -> matrix4f.scale(getEntityScale()));
         }
 
         model.model().setupAnim(this.entity);
         model.model().renderServerSide(STACK, (part, matrix4f, hidden) -> updateElement(model, part, matrix4f, hidden));
-        renderServerSide(STACK);
+        renderSpecialLayers(STACK);
 
         STACK.popMatrix();
     }
 
-    protected void renderServerSide(Matrix4fStack stack) {
+    protected void renderSpecialLayers(Matrix4fStack stack) {
     }
 
     public float getEntityScale() {
@@ -213,41 +188,6 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
             element.setTransformation(matrix4f);
             EntityModelHelper.updateDisplayElement(element, this.entity);
             element.startInterpolationIfDirty();
-        }
-    }
-
-    protected void setupTransforms(LivingEntity entity, Matrix4fStack matrices, float bodyYaw, float baseHeight) {
-        if (entity.isFullyFrozen()) {
-            bodyYaw += (float) (Math.cos((float) Mth.floor(entity.tickCount) * 3.25F) * Math.PI * 0.4000000059604645);
-        }
-
-        if (!entity.hasPose(Pose.SLEEPING)) {
-            matrices.rotate(Axis.YP.rotationDegrees(180.0F - bodyYaw));
-        }
-
-        if (entity.deathTime > 0.0F) {
-            float f = (entity.deathTime - 1.0F) / 20.0F * 1.6F;
-            f = Mth.sqrt(f);
-            if (f > 1.0F) {
-                f = 1.0F;
-            }
-
-            matrices.rotate(Axis.ZP.rotationDegrees(f * 90));
-        } else if (entity.isAutoSpinAttack()) {
-            matrices.rotate(Axis.XP.rotationDegrees(-90.0F - entity.getXRot()));
-            matrices.rotate(Axis.YP.rotationDegrees(entity.tickCount * -75.0F));
-        } else if (entity.hasPose(Pose.SLEEPING)) {
-            Direction direction = entity.getBedOrientation();
-            float g = direction != null ? getYaw(direction) : bodyYaw;
-            matrices.rotate(Axis.YP.rotationDegrees(g));
-            matrices.rotate(Axis.ZP.rotationDegrees(90));
-            matrices.rotate(Axis.YP.rotationDegrees(270.0F));
-        } else {
-            var name = entity.getDisplayName().getString();
-            if ("Dinnerbone".equals(name) || "Grumm".equals(name)) {
-                matrices.translate(0.0F, (entity.getBbHeight() + 0.1F) / baseHeight, 0.0F);
-                matrices.rotate(Axis.ZP.rotationDegrees(180.0F));
-            }
         }
     }
 

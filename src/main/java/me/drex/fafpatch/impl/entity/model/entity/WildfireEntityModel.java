@@ -2,9 +2,9 @@ package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
-import net.minecraft.util.Mth;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireEntity> {
         float limbDistance = wildfire.walkAnimation.speed(1);
         var animationProgress = wildfire.tickCount;
 
-        var headYaw = Mth.wrapDegrees(wildfire.yHeadRot - wildfire.yBodyRot) * ((float)Math.PI / 180);
+        var headYaw = EntityValueExtraction.getRelativeHeadYaw(wildfire) * ((float)Math.PI / 180);
         var headPitch = wildfire.getXRot();
 
         int activeShieldsCount = wildfire.getActiveShieldsCount();
