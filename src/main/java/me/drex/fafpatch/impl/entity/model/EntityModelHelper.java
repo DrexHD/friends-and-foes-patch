@@ -10,10 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityModelHelper {
+    public static final int TELEPORT_DURATION = 3;
+
     public static ItemDisplayElement createItemDisplay(ItemStack stack) {
         var itemDisplay = ItemDisplayElementUtil.createSimple(stack);
         itemDisplay.setInterpolationDuration(1);
-        itemDisplay.setTeleportDuration(3);
+        itemDisplay.setTeleportDuration(TELEPORT_DURATION);
         itemDisplay.setViewRange(2);
         return itemDisplay;
     }

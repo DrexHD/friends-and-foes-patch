@@ -199,13 +199,20 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
             return;
         }
 
-        if (hidden) {
+        List<VirtualElement> virtualElements = this.getElements();
+        if (virtualElements.contains(element) && hidden) {
             this.removeElement(element);
-        } else {
+        } else if (!virtualElements.contains(element) && !hidden) {
+            this.addElement(element);
+            element.setTeleportDuration(0);
+        } else if (!hidden) {
+            element.setTeleportDuration(EntityModelHelper.TELEPORT_DURATION);
+        }
+
+        if (!hidden) {
             element.setTransformation(matrix4f);
             EntityModelHelper.updateDisplayElement(element, this.entity);
             element.startInterpolationIfDirty();
-            this.addElement(element);
         }
     }
 

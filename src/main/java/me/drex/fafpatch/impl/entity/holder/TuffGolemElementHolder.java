@@ -2,10 +2,10 @@ package me.drex.fafpatch.impl.entity.holder;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.mojang.math.Axis;
-import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
 import me.drex.fafpatch.impl.entity.SimpleElementHolder;
+import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import me.drex.fafpatch.impl.entity.model.entity.TuffGolemEntityModel;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4fStack;
 
 public class TuffGolemElementHolder extends SimpleElementHolder<TuffGolemEntity, TuffGolemEntityModel> {
@@ -24,12 +23,7 @@ public class TuffGolemElementHolder extends SimpleElementHolder<TuffGolemEntity,
 
     public TuffGolemElementHolder(TuffGolemEntity entity) {
         super(entity);
-        itemElement = ItemDisplayElementUtil.createSimple(ItemStack.EMPTY);
-        itemElement.setDisplaySize(this.entity.getBbWidth() * 2, this.entity.getBbHeight() * 2);
-        itemElement.setInterpolationDuration(1);
-        itemElement.setTeleportDuration(3);
-        itemElement.setViewRange(2);
-        itemElement.setOffset(new Vec3(0, this.entity.getBbHeight() / 2, 0));
+        itemElement = EntityModelHelper.createItemDisplay(ItemStack.EMPTY);
         addElement(itemElement);
         addConditionalLayer(TuffGolemEntity::getColor, CLOTH_LAYER, EntityModels.TUFF_GOLEM_CLOTH::get);
         addConditionalLayer(TuffGolemEntity::isInSleepingPose, CLOSED_EYES_LAYER, isSleeping -> {
@@ -73,6 +67,7 @@ public class TuffGolemElementHolder extends SimpleElementHolder<TuffGolemEntity,
         itemElement.setItem(itemStack);
         itemElement.setItemDisplayContext(ItemDisplayContext.GROUND);
         itemElement.setTransformation(stack);
+        EntityModelHelper.updateDisplayElement(itemElement, this.entity);
         stack.popMatrix();
     }
 
