@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Don't use any "free block states"
+
 ## [4.0.7-2] - 2025-07-25
 ### Fixed
 - Clients disconnecting when animated entities pickup items

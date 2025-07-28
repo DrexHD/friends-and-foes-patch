@@ -10,13 +10,13 @@ import me.drex.fafpatch.impl.FriendsAndFoesPatch;
 import me.drex.fafpatch.impl.block.BaseFactoryBlock;
 import me.drex.fafpatch.impl.block.RealSingleStatePolymerBlock;
 import me.drex.fafpatch.impl.block.StateCopyFactoryBlock;
-import me.drex.fafpatch.impl.block.StatePolymerBlock;
 import me.drex.fafpatch.impl.model.generic.BlockStateModelManager;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Function;
@@ -39,11 +39,11 @@ public abstract class FriendsAndFoesBlocksMixin {
         FriendsAndFoesPatch.LATE_INIT.add(() -> BlockStateModelManager.addBlock(registryEntry.getId(), block));
 
         PolymerBlock overlay = switch (block) {
-            case BeehiveBlock ignored -> StatePolymerBlock.of(block, BlockModelType.FULL_BLOCK);
+            case BeehiveBlock ignored -> BaseFactoryBlock.BARRIER;
             case ButtonBlock ignored -> StateCopyFactoryBlock.BUTTON;
             case LightningRodBlock ignored -> StateCopyFactoryBlock.LIGHTNING_ROD;
             case CrabEggBlock ignored -> StateCopyFactoryBlock.EGG;
-            case FlowerBlock ignored -> RealSingleStatePolymerBlock.of(block, BlockModelType.TRIPWIRE_BLOCK_FLAT);
+            case FlowerBlock ignored -> BaseFactoryBlock.PLANT;
             case FlowerPotBlock ignored -> StateCopyFactoryBlock.POT;
             default -> {
                 FriendsAndFoesPatch.LOGGER.warn("Missing overlay for block: {}", block.getClass().getName());
@@ -55,6 +55,17 @@ public abstract class FriendsAndFoesBlocksMixin {
         if (overlay instanceof BlockWithElementHolder blockWithElementHolder) {
             BlockWithElementHolder.registerOverlay(block, blockWithElementHolder);
         }
+    }
 
+    @ModifyArg(
+        method = "lambda$registerBlock$42",
+        at = @At(
+            value = "INVOKE",
+            target = "Ljava/util/function/Function;apply(Ljava/lang/Object;)Ljava/lang/Object;"
+        ),
+        index = 0
+    )
+    private static Object noOcclussion(Object obj) {
+        return ((BlockBehaviour.Properties) obj).noOcclusion();
     }
 }
