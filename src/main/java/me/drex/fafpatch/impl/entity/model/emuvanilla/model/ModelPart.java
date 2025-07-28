@@ -100,13 +100,17 @@ public final class ModelPart {
     }
 
     public void renderServerSide(Matrix4fStack matrices, CubeConsumer vertices) {
+        renderServerSide(matrices, vertices, this.visible);
+    }
+
+    public void renderServerSide(Matrix4fStack matrices, CubeConsumer vertices, boolean visible) {
         if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
             matrices.pushMatrix();
             this.applyTransform(matrices);
-            vertices.consume(this, matrices, !this.visible);
+            vertices.consume(this, matrices, !visible);
 
             for(ModelPart modelPart : this.children.values()) {
-                modelPart.renderServerSide(matrices, vertices);
+                modelPart.renderServerSide(matrices, vertices, visible && modelPart.visible);
             }
 
             matrices.popMatrix();
