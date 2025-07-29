@@ -6,9 +6,9 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
-import net.minecraft.util.Mth;
 
 public class CopperGolemEntityModel extends EntityModel<CopperGolemEntity> {
     private static final String MODEL_PART_BODY = "body";
@@ -74,7 +74,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemEntity> {
         float limbDistance = copperGolem.walkAnimation.speed(1);
 
         var animationProgress = copperGolem.tickCount;
-        var headYaw = Mth.wrapDegrees(copperGolem.yHeadRot - copperGolem.yBodyRot);
+        var headYaw = EntityValueExtraction.getBodyYaw(copperGolem);
 
         if (copperGolem.isOxidized()) {
             animationProgress = copperGolem.tickCount;

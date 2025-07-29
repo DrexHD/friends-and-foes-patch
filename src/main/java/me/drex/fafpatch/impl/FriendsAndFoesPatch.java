@@ -35,7 +35,6 @@ public class FriendsAndFoesPatch implements ModInitializer {
         ResourcePackExtras.forDefault().addBridgedModelsFolder(FriendsAndFoes.makeID("entity"), (id, b) -> {
             return new ItemAsset(new BasicItemModel(id, List.of(new MapColorTintSource(0xFFFFFF))), new ItemAsset.Properties(true, true));
         });
-        ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"));
         ResourcePackGenerator.setup();
 
         PolymerEntityUtils.registerPolymerEntityConstructor(EntityType.VILLAGER, villager -> {

@@ -1,5 +1,6 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.npc.Villager;
@@ -70,7 +71,7 @@ public class VillagerModel extends EntityModel<Villager> {
 
     public void setupAnim(Villager villager) {
         super.setupAnim(villager);
-        this.head.yRot = Mth.wrapDegrees(villager.yHeadRot - villager.yBodyRot) * (float) (Math.PI / 180.0);
+        this.head.yRot = EntityValueExtraction.getRelativeHeadYaw(villager) * (float) (Math.PI / 180.0);
         this.head.xRot = villager.getXRot() * (float) (Math.PI / 180.0);
         if (villager.getUnhappyCounter() > 0) {
             this.head.zRot = 0.3F * Mth.sin(0.45F * villager.tickCount);

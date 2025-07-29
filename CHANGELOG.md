@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Move generic block code to FactoryTools
+
 ## [4.0.7-3] - 2025-07-25
 ### Changed
 - Don't use any "free block states"

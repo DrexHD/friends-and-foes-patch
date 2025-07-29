@@ -4,8 +4,8 @@ import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import eu.pb4.polymer.virtualentity.api.elements.BlockDisplayElement;
 import me.drex.fafpatch.impl.entity.SimpleElementHolder;
 import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
-import me.drex.fafpatch.impl.entity.model.entity.CowModel;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
+import me.drex.fafpatch.impl.entity.model.entity.CowModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -29,8 +29,8 @@ public class MoobloomElementHolder extends SimpleElementHolder<MoobloomEntity, C
     }
 
     @Override
-    protected void renderServerSide(Matrix4fStack stack) {
-        super.renderServerSide(stack);
+    protected void renderSpecialLayers(Matrix4fStack stack) {
+        super.renderSpecialLayers(stack);
         renderFlowers(stack);
     }
 

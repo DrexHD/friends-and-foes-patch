@@ -1,5 +1,6 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -48,7 +49,7 @@ public class QuadrupedModel<T extends LivingEntity> extends EntityModel<T> {
 
     public void setupAnim(T livingEntity) {
         super.setupAnim(livingEntity);
-        this.head.yRot = Mth.wrapDegrees(livingEntity.yHeadRot - livingEntity.yBodyRot) * ((float)Math.PI / 180);
+        this.head.yRot = EntityValueExtraction.getRelativeHeadYaw(livingEntity) * ((float)Math.PI / 180);
         this.head.xRot = livingEntity.getXRot() * ((float)Math.PI / 180);
         float pos = livingEntity.walkAnimation.position(1);
         float speed = livingEntity.walkAnimation.speed(1);

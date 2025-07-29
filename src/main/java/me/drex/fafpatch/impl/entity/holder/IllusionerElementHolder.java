@@ -35,8 +35,8 @@ public class IllusionerElementHolder extends SimpleElementHolder<IllusionerEntit
     }
 
     @Override
-    protected void renderServerSide(Matrix4fStack stack) {
-        super.renderServerSide(stack);
+    protected void renderSpecialLayers(Matrix4fStack stack) {
+        super.renderSpecialLayers(stack);
         renderHandItem(HumanoidArm.LEFT, stack);
         renderHandItem(HumanoidArm.RIGHT, stack);
     }

@@ -1,5 +1,6 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
@@ -48,7 +49,7 @@ public class IllagerModel<S extends AbstractIllager> extends EntityModel<S> /*im
     public void setupAnim(S illagerEntity) {
         boolean bl;
         super.setupAnim(illagerEntity);
-        this.head.yRot = Mth.wrapDegrees(illagerEntity.yHeadRot - illagerEntity.yBodyRot) * ((float)Math.PI / 180);
+        this.head.yRot = EntityValueExtraction.getRelativeHeadYaw(illagerEntity) * ((float)Math.PI / 180);
         this.head.xRot = illagerEntity.getXRot() * ((float)Math.PI / 180);
         if (illagerEntity.isPassenger()) {
             this.rightArm.xRot = -0.62831855f;
