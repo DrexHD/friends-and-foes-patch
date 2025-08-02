@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.8-0] - 2025-08-02
 ### Changed
+- Move to 4.0.8 as base version
 - Move generic block code to FactoryTools
 
 ## [4.0.7-3] - 2025-07-25
