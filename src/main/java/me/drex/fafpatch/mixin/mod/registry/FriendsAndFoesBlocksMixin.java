@@ -8,6 +8,7 @@ import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.virtualentity.api.BlockWithElementHolder;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
 import me.drex.fafpatch.impl.block.BaseFactoryBlock;
+import me.drex.fafpatch.impl.block.StateCopyBlock;
 import me.drex.fafpatch.impl.block.StateCopyFactoryBlock;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -39,7 +40,12 @@ public abstract class FriendsAndFoesBlocksMixin {
         PolymerBlock overlay = switch (block) {
             case BeehiveBlock ignored -> BaseFactoryBlock.BARRIER;
             case ButtonBlock ignored -> StateCopyFactoryBlock.BUTTON;
-            case LightningRodBlock ignored -> StateCopyFactoryBlock.LIGHTNING_ROD;
+            case LightningRodBlock ignored -> {
+                if (id.equals("waxed_lightning_rod")) {
+                    yield StateCopyBlock.LIGHTNING_ROD;
+                }
+                yield StateCopyFactoryBlock.LIGHTNING_ROD;
+            }
             case CrabEggBlock ignored -> StateCopyFactoryBlock.EGG;
             case FlowerBlock ignored -> BaseFactoryBlock.PLANT;
             case FlowerPotBlock ignored -> StateCopyFactoryBlock.POT;

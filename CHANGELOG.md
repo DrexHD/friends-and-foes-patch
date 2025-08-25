@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.8-1] - 2025-08-02
+### Fixed
+- Missing texture for waxed lightning rod
+- "Missing texture references in model" client log spam
+
 ## [4.0.8-0] - 2025-08-02
 ### Changed
 - Move to 4.0.8 as base version

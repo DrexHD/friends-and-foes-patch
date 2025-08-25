@@ -60,7 +60,7 @@ public record PolyModelInstance<T extends EntityModel<?>>(T model, LayerDefiniti
             var modelId = texture.withSuffix("/part_" + (id++));
             var model = ModelAsset.builder();
             model.texture("txt", texture.toString());
-            model.texture("empty", "friendsandfoes-polymer-patch:block/empty");
+            model.texture("empty", "factorytools:block/empty");
             model.texture("particle", "#txt");
 
             part.getCubes().forEach(cuboid -> {
