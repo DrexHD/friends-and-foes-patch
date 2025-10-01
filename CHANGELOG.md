@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.10-0] - 2025-10-01
+### Changed
+- Update friends and foes to 4.0.10
+
 ## [4.0.8-1] - 2025-08-02
 ### Fixed
 - Missing texture for waxed lightning rod
