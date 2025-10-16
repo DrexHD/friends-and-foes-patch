@@ -24,7 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;isClientSide()Z",
-            ordinal = 1
+            ordinal = 2
         )
     )
     public boolean serverSideWalkAnimation(boolean original) {
