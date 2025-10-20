@@ -16,7 +16,6 @@ public class AnimatedEntities {
     protected static final IdentityHashMap<EntityType<?>, Function<Entity, ? extends SimpleElementHolder<?, ?>>> ENTITY_FACTORIES = new IdentityHashMap<>();
 
     static {
-        registerEntity(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), null, CopperGolemElementHolder::new);
         registerEntity(FriendsAndFoesEntityTypes.CRAB.get(), EntityModels.CRAB, CrabElementHolder::new);
         registerEntity(FriendsAndFoesEntityTypes.GLARE.get(), EntityModels.GLARE, GlareElementHolder::new);
         registerEntity(FriendsAndFoesEntityTypes.ICEOLOGER.get(), EntityModels.ICEOLOGER, SimpleElementHolder::new);

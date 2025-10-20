@@ -17,22 +17,12 @@ import me.drex.fafpatch.impl.res.ResourcePackGenerator;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.WeatheringCopper;
 
 import java.util.*;
 import java.util.function.Function;
 
 public interface EntityModels {
     List<PolyModelInstance<?>> ALL = new ArrayList<>();
-    EnumMap<WeatheringCopper.WeatherState, PolyModelInstance<CopperGolemEntityModel>> COPPER_GOLEM = Util.make(new EnumMap<>(WeatheringCopper.WeatherState.class), m -> {
-        for (var state : WeatheringCopper.WeatherState.values()) {
-            String prefix = "";
-            if (state != WeatheringCopper.WeatherState.UNAFFECTED) {
-                prefix = state.getSerializedName() + "_";
-            }
-            m.put(state, create(CopperGolemEntityModel::new, CopperGolemEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/copper_golem/" + prefix + "copper_golem")));
-        }
-    });
 
     Map<MoobloomElementHolder.RenderState, PolyModelInstance<CowModel<MoobloomEntity>>> MOOBLOOM = new HashMap<>() {{
         for (boolean isBaby : new boolean[]{false, true}) {
