@@ -24,8 +24,7 @@ public abstract class FriendsAndFoesItemGroupsMixin {
         )
     )
     private static RegistryEntry<CreativeModeTab> polymerify(ResourcefulRegistry<CreativeModeTab> instance, String s, Supplier<CreativeModeTab> iSupplier, Operation<RegistryEntry<CreativeModeTab>> original) {
-        RegistryEntry<CreativeModeTab> registryEntry = original.call(instance, s, iSupplier);
-        PolymerItemGroupUtils.registerPolymerItemGroup(FriendsAndFoes.makeID(s), registryEntry.get());
-        return registryEntry;
+        PolymerItemGroupUtils.registerPolymerItemGroup(FriendsAndFoes.makeID(s), iSupplier.get());
+        return null;
     }
 }
