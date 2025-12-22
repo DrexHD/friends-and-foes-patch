@@ -10,7 +10,7 @@ import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -24,14 +24,14 @@ import java.util.function.Function;
 
 public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> extends ElementHolder {
 
-    public static final ResourceLocation MAIN_LAYER = FriendsAndFoesPatch.id("main_layer");
+    public static final Identifier MAIN_LAYER = FriendsAndFoesPatch.id("main_layer");
     static final Matrix4fStack STACK = new Matrix4fStack(64);
     private final Map<PolyModelInstance<X>, Map<ModelPart, ItemDisplayElement>> elements = new IdentityHashMap<>();
     protected final T entity;
     public final InteractionElement interaction;
     public final LeadAttachmentElement leadAttachment = new LeadAttachmentElement();
 
-    final Map<ResourceLocation, PolyModelInstance<X>> layerModels = new HashMap<>();
+    final Map<Identifier, PolyModelInstance<X>> layerModels = new HashMap<>();
     final List<ConditionalLayer<?>> conditionalLayers = new ArrayList<>();
     private boolean hurt = false;
 
@@ -48,7 +48,7 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
         this.addPassengerElement(this.interaction);
     }
 
-    public <L> void addConditionalLayer(Function<T, L> stateSupplier, ResourceLocation layer, Function<L, PolyModelInstance<X>> modelSupplier) {
+    public <L> void addConditionalLayer(Function<T, L> stateSupplier, Identifier layer, Function<L, PolyModelInstance<X>> modelSupplier) {
         conditionalLayers.add(new ConditionalLayer<>(stateSupplier, layer, modelSupplier));
     }
 
@@ -60,7 +60,7 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
         return layerModels.get(MAIN_LAYER);
     }
 
-    public void setLayer(ResourceLocation id, PolyModelInstance<X> layer) {
+    public void setLayer(Identifier id, PolyModelInstance<X> layer) {
         if (layerModels.get(id) == layer) {
             return;
         }
@@ -193,11 +193,11 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
 
     private class ConditionalLayer<S> {
         private final Function<T, S> stateSupplier;
-        private final ResourceLocation layer;
+        private final Identifier layer;
         private final Function<S, PolyModelInstance<X>> modelSupplier;
         S previous;
 
-        private ConditionalLayer(Function<T, S> stateSupplier, ResourceLocation layer, Function<S, PolyModelInstance<X>> modelSupplier) {
+        private ConditionalLayer(Function<T, S> stateSupplier, Identifier layer, Function<S, PolyModelInstance<X>> modelSupplier) {
             this.stateSupplier = stateSupplier;
             this.layer = layer;
             this.modelSupplier = modelSupplier;

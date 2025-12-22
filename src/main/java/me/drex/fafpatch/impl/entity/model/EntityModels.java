@@ -14,9 +14,9 @@ import me.drex.fafpatch.impl.entity.model.emuvanilla.model.MeshTransformer;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
 import me.drex.fafpatch.impl.entity.model.entity.*;
 import me.drex.fafpatch.impl.res.ResourcePackGenerator;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.*;
 import java.util.function.Function;
@@ -57,21 +57,21 @@ public interface EntityModels {
     MeshTransformer humanLikeScaling = MeshTransformer.scaling(0.9375F);
     LayerDefinition villagerData = LayerDefinition.create(VillagerModel.createBodyModel(), 64, 64).apply(humanLikeScaling);
     PolyModelInstance<VillagerModel> VILLAGER = create(modelPart -> new VillagerModel(modelPart, true), villagerData, FriendsAndFoes.makeID("entity/villager/villager"));
-    Map<ResourceLocation, PolyModelInstance<VillagerModel>> VILLAGER_PROFESSION = Util.make(new HashMap<>(), m -> {
+    Map<Identifier, PolyModelInstance<VillagerModel>> VILLAGER_PROFESSION = Util.make(new HashMap<>(), m -> {
         var instance = create(modelPart -> new VillagerModel(modelPart, true), villagerData, FriendsAndFoes.makeID("entity/villager/profession/beekeeper"));
         m.put(FriendsAndFoes.makeID("beekeeper"), instance);
     });
 
     Int2ObjectMap<PolyModelInstance<VillagerModel>> VILLAGER_PROFESSION_LEVEL = Util.make(new Int2ObjectOpenHashMap<>(), m -> {
-        ResourcePackGenerator.LEVEL_LOCATIONS.forEach((level, resourceLocation) -> {
-            var instance = create(modelPart -> new VillagerModel(modelPart, false), villagerData, FriendsAndFoes.makeID("entity/villager/profession_level/" + resourceLocation.getPath()));
+        ResourcePackGenerator.LEVEL_LOCATIONS.forEach((level, Identifier) -> {
+            var instance = create(modelPart -> new VillagerModel(modelPart, false), villagerData, FriendsAndFoes.makeID("entity/villager/profession_level/" + Identifier.getPath()));
             m.put(level, instance);
         });
     });
-    Map<ResourceLocation, PolyModelInstance<VillagerModel>> VILLAGER_TYPE = Util.make(new HashMap<>(), m -> {
-        for (ResourceLocation resourceLocation : BuiltInRegistries.VILLAGER_TYPE.keySet()) {
-            var instance = create(modelPart -> new VillagerModel(modelPart, false), villagerData, FriendsAndFoes.makeID("entity/villager/type/" + resourceLocation.getPath()));
-            m.put(resourceLocation, instance);
+    Map<Identifier, PolyModelInstance<VillagerModel>> VILLAGER_TYPE = Util.make(new HashMap<>(), m -> {
+        for (Identifier Identifier : BuiltInRegistries.VILLAGER_TYPE.keySet()) {
+            var instance = create(modelPart -> new VillagerModel(modelPart, false), villagerData, FriendsAndFoes.makeID("entity/villager/type/" + Identifier.getPath()));
+            m.put(Identifier, instance);
         }
     });
 
@@ -85,7 +85,7 @@ public interface EntityModels {
         }
     });
 
-    static <T extends EntityModel<?>> PolyModelInstance<T> create(Function<ModelPart, T> modelCreator, LayerDefinition data, ResourceLocation texture) {
+    static <T extends EntityModel<?>> PolyModelInstance<T> create(Function<ModelPart, T> modelCreator, LayerDefinition data, Identifier texture) {
         var instance = PolyModelInstance.create(modelCreator, data, texture);
         ALL.add(instance);
         return instance;

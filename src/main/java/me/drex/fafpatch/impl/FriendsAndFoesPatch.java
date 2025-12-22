@@ -11,7 +11,7 @@ import eu.pb4.polymer.resourcepack.extras.api.format.item.tint.MapColorTintSourc
 import me.drex.fafpatch.impl.entity.BasePolymerEntity;
 import me.drex.fafpatch.impl.res.ResourcePackGenerator;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public class FriendsAndFoesPatch implements ModInitializer {
         });
     }
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

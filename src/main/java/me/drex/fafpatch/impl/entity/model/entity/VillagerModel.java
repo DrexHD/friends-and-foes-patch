@@ -3,7 +3,7 @@ package me.drex.fafpatch.impl.entity.model.entity;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 
 public class VillagerModel extends EntityModel<Villager> {
     public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(0.5F);

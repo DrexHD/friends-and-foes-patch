@@ -14,9 +14,9 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 
 import java.nio.charset.StandardCharsets;
@@ -30,12 +30,12 @@ import static me.drex.fafpatch.impl.FriendsAndFoesPatch.id;
 public class ResourcePackGenerator {
     private static final Set<String> EXPANDABLE = Set.of("button", "egg", "lightning_rod");
     private static final Vec3 EXPANSION = new Vec3(0.06, 0.06, 0.06);
-    public static final Int2ObjectMap<ResourceLocation> LEVEL_LOCATIONS = Util.make(new Int2ObjectOpenHashMap<>(), int2ObjectOpenHashMap -> {
-        int2ObjectOpenHashMap.put(1, ResourceLocation.withDefaultNamespace("stone"));
-        int2ObjectOpenHashMap.put(2, ResourceLocation.withDefaultNamespace("iron"));
-        int2ObjectOpenHashMap.put(3, ResourceLocation.withDefaultNamespace("gold"));
-        int2ObjectOpenHashMap.put(4, ResourceLocation.withDefaultNamespace("emerald"));
-        int2ObjectOpenHashMap.put(5, ResourceLocation.withDefaultNamespace("diamond"));
+    public static final Int2ObjectMap<Identifier> LEVEL_LOCATIONS = Util.make(new Int2ObjectOpenHashMap<>(), int2ObjectOpenHashMap -> {
+        int2ObjectOpenHashMap.put(1, Identifier.withDefaultNamespace("stone"));
+        int2ObjectOpenHashMap.put(2, Identifier.withDefaultNamespace("iron"));
+        int2ObjectOpenHashMap.put(3, Identifier.withDefaultNamespace("gold"));
+        int2ObjectOpenHashMap.put(4, Identifier.withDefaultNamespace("emerald"));
+        int2ObjectOpenHashMap.put(5, Identifier.withDefaultNamespace("diamond"));
     });
 
     public static void setup() {
@@ -49,17 +49,17 @@ public class ResourcePackGenerator {
             "assets/minecraft/textures/entity/villager/villager.png",
             "assets/friendsandfoes/textures/entity/villager/villager.png"
         );
-        for (ResourceLocation resourceLocation : BuiltInRegistries.VILLAGER_TYPE.keySet()) {
+        for (Identifier Identifier : BuiltInRegistries.VILLAGER_TYPE.keySet()) {
             copyVanillaAssets(builder,
-                "assets/minecraft/textures/entity/villager/type/" + resourceLocation.getPath() + ".png",
-                "assets/friendsandfoes/textures/entity/villager/type/" + resourceLocation.getPath() + ".png"
+                "assets/minecraft/textures/entity/villager/type/" + Identifier.getPath() + ".png",
+                "assets/friendsandfoes/textures/entity/villager/type/" + Identifier.getPath() + ".png"
             );
         }
 
-        LEVEL_LOCATIONS.forEach((level, resourceLocation) -> {
+        LEVEL_LOCATIONS.forEach((level, Identifier) -> {
             copyVanillaAssets(builder,
-                "assets/minecraft/textures/entity/villager/profession_level/" + resourceLocation.getPath() + ".png",
-                "assets/friendsandfoes/textures/entity/villager/profession_level/" + resourceLocation.getPath() + ".png"
+                "assets/minecraft/textures/entity/villager/profession_level/" + Identifier.getPath() + ".png",
+                "assets/friendsandfoes/textures/entity/villager/profession_level/" + Identifier.getPath() + ".png"
             );
         });
 
@@ -105,7 +105,7 @@ public class ResourcePackGenerator {
                     builder.addData(AssetPaths.model(FriendsAndFoesPatch.MOD_ID, parentId.getPath() + suffix) + ".json",
                         ModelModifiers.expandModelAndRotateUVLocked(parentAsset, expand, v.x(), v.y()));
                     builder.addData(AssetPaths.model(modelId) + ".json",
-                        new ModelAsset(Optional.of(ResourceLocation.fromNamespaceAndPath(FriendsAndFoesPatch.MOD_ID, parentId.getPath() + suffix)), asset.elements(),
+                        new ModelAsset(Optional.of(Identifier.fromNamespaceAndPath(FriendsAndFoesPatch.MOD_ID, parentId.getPath() + suffix)), asset.elements(),
                             asset.textures(), asset.display(), asset.guiLight(), asset.ambientOcclusion()).toBytes());
                 }
             }

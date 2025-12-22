@@ -8,7 +8,7 @@ import me.drex.fafpatch.impl.entity.SimpleElementHolder;
 import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import me.drex.fafpatch.impl.entity.model.entity.TuffGolemEntityModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,8 +18,8 @@ import org.joml.Matrix4fStack;
 public class TuffGolemElementHolder extends SimpleElementHolder<TuffGolemEntity, TuffGolemEntityModel> {
 
     private final ItemDisplayElement itemElement;
-    public static final ResourceLocation CLOTH_LAYER = FriendsAndFoesPatch.id("cloth_layer");
-    public static final ResourceLocation CLOSED_EYES_LAYER = FriendsAndFoesPatch.id("closed_eyes_layer");
+    public static final Identifier CLOTH_LAYER = FriendsAndFoesPatch.id("cloth_layer");
+    public static final Identifier CLOSED_EYES_LAYER = FriendsAndFoesPatch.id("closed_eyes_layer");
 
     public TuffGolemElementHolder(TuffGolemEntity entity) {
         super(entity);

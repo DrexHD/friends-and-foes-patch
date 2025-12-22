@@ -2,7 +2,7 @@ package me.drex.fafpatch.impl.entity.model.entity;
 
 import me.drex.fafpatch.impl.entity.model.BabyModelTransform;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
-import net.minecraft.world.entity.animal.AbstractCow;
+import net.minecraft.world.entity.animal.cow.AbstractCow;
 
 import java.util.Set;
 

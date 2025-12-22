@@ -12,7 +12,7 @@ import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public record BasePolymerEntity(Entity entity) implements PolymerEntity {
-    public static final ResourceLocation MODEL = FriendsAndFoes.makeID("model");
+    public static final Identifier MODEL = FriendsAndFoes.makeID("model");
 
     public BasePolymerEntity {
         Function<Entity, ? extends SimpleElementHolder<?, ?>> factory = AnimatedEntities.ENTITY_FACTORIES.get(entity.getType());

@@ -6,11 +6,11 @@ import me.drex.fafpatch.impl.entity.SimpleElementHolder;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import me.drex.fafpatch.impl.entity.model.entity.GlareEntityModel;
 import net.minecraft.ChatFormatting;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class GlareElementHolder extends SimpleElementHolder<GlareEntity, GlareEntityModel> {
 
-    public static final ResourceLocation FLOWERING_LAYER = FriendsAndFoesPatch.id("flowering_layer");
+    public static final Identifier FLOWERING_LAYER = FriendsAndFoesPatch.id("flowering_layer");
 
     public GlareElementHolder(GlareEntity entity) {
         super(entity);

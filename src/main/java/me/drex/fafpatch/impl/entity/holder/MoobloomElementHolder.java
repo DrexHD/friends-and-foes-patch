@@ -7,7 +7,7 @@ import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import me.drex.fafpatch.impl.entity.model.entity.CowModel;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -85,8 +85,8 @@ public class MoobloomElementHolder extends SimpleElementHolder<MoobloomEntity, C
     }
 
     private void renderFlower(Matrix4fStack stack, BlockState flowerState, int index) {
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(flowerState.getBlock());
-        if (!id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+        Identifier id = BuiltInRegistries.BLOCK.getKey(flowerState.getBlock());
+        if (!id.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
             // rendering modded blocks is annoying
             flowerState = Blocks.DANDELION.defaultBlockState();
         }

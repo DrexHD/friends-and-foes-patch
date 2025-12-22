@@ -11,7 +11,7 @@ import me.drex.fafpatch.impl.entity.model.emuvanilla.model.LayerDefinition;
 import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.MapItemColor;
@@ -22,20 +22,20 @@ import java.util.IdentityHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public record PolyModelInstance<T extends EntityModel<?>>(T model, LayerDefinition data, ResourceLocation texture,
+public record PolyModelInstance<T extends EntityModel<?>>(T model, LayerDefinition data, Identifier texture,
                                                           Function<ModelPart, ItemStack> modelParts, Function<ModelPart, ItemStack> damagedModelParts) {
 
-    public static <T extends EntityModel<?>> PolyModelInstance<T> create(Function<ModelPart, T> modelCreator, LayerDefinition data, ResourceLocation texture) {
+    public static <T extends EntityModel<?>> PolyModelInstance<T> create(Function<ModelPart, T> modelCreator, LayerDefinition data, Identifier texture) {
         var model = modelCreator.apply(data.bakeRoot());
 
         return of(model, data, texture);
     }
 
-    public PolyModelInstance<T> withTexture(ResourceLocation texture) {
+    public PolyModelInstance<T> withTexture(Identifier texture) {
         return of(this.model, this.data, texture);
     }
 
-    private static <T extends EntityModel<?>> PolyModelInstance<T> of(T model, LayerDefinition data, ResourceLocation texture) {
+    private static <T extends EntityModel<?>> PolyModelInstance<T> of(T model, LayerDefinition data, Identifier texture) {
         var map = new IdentityHashMap<ModelPart, ItemStack>();
         var damagedMap = new IdentityHashMap<ModelPart, ItemStack>();
         int id = 0;
