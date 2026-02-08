@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.19-0] - 2026-02-08
+### Changed
+- Update friends and foes to 4.0.19
+
 ### Fixed
 - Resource pack generating slightly different sometimes
 
