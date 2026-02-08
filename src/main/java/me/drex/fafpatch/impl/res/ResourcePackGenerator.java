@@ -21,9 +21,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static me.drex.fafpatch.impl.FriendsAndFoesPatch.id;
 
@@ -75,18 +73,11 @@ public class ResourcePackGenerator {
                         var parentId = asset.parent().get();
                         var parentAsset = ModelAsset.fromJson(new String(Objects.requireNonNull(builder.getDataOrSource(AssetPaths.model(parentId) + ".json")), StandardCharsets.UTF_8));
 
-                        builder.addData(AssetPaths.model(FriendsAndFoesPatch.MOD_ID, parentId.getPath()) + ".json", new ModelAsset(parentAsset.parent(), parentAsset.elements().map(x -> x.stream()
+                        String parentPath = AssetPaths.model(FriendsAndFoesPatch.MOD_ID, parentId.getPath()) + ".json";
+                        builder.addData(parentPath, new ModelAsset(parentAsset.parent(), parentAsset.elements().map(x -> x.stream()
                             .map(element -> new ModelElement(element.from().subtract(EXPANSION), element.to().add(EXPANSION),
                                 element.faces(), element.rotation(), element.shade(), element.lightEmission())
                             ).toList()), parentAsset.textures(), parentAsset.display(), parentAsset.guiLight(), parentAsset.ambientOcclusion()).toBytes());
-
-
-                        if (asset.elements().isPresent()) {
-                            builder.addData(string, new ModelAsset(asset.parent(), asset.elements().map(x -> x.stream()
-                                .map(element -> new ModelElement(element.from().subtract(EXPANSION), element.to().add(EXPANSION),
-                                    element.faces(), element.rotation(), element.shade(), element.lightEmission())
-                                ).toList()), asset.textures(), asset.display(), asset.guiLight(), asset.ambientOcclusion()).toBytes());
-                        }
                     }
                 }
             }
