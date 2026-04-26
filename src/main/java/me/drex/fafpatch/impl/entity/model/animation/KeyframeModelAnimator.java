@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import me.drex.fafpatch.impl.entity.animation.animator.KeyframeAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.EntityModel;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;

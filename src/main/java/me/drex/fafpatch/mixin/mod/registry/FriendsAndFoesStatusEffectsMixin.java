@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
-import eu.pb4.polymer.core.api.other.PolymerStatusEffect;
+import eu.pb4.polymer.core.api.other.PolymerMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +24,7 @@ public abstract class FriendsAndFoesStatusEffectsMixin {
     )
     private static HolderRegistryEntry<MobEffect> polymerify(ResourcefulRegistry<MobEffect> instance, String s, Supplier<MobEffect> tSupplier, Operation<HolderRegistryEntry<MobEffect>> original) {
         HolderRegistryEntry<MobEffect> registryEntry = original.call(instance, s, tSupplier);
-        PolymerStatusEffect.registerOverlay(registryEntry.get());
+        PolymerMobEffect.registerOverlay(registryEntry.get());
         return registryEntry;
     }
 

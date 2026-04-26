@@ -1,10 +1,10 @@
 package me.drex.fafpatch.impl.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.PolyModelInstance;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.EntityModel;
 import me.drex.fafpatch.impl.entity.holder.*;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 

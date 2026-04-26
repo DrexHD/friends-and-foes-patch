@@ -1,6 +1,6 @@
 package me.drex.fafpatch.impl.entity.animation.animator;
 
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import org.joml.Vector3f;
 
 public final class ModelPartAnimator

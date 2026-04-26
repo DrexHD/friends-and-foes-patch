@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 
 import java.util.List;
 

@@ -1,15 +1,15 @@
 package me.drex.fafpatch.impl.entity;
 
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityModelTransforms;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.PolyModelInstance;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.EntityModel;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.elements.InteractionElement;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.VirtualElement;
 import me.drex.fafpatch.impl.FriendsAndFoesPatch;
 import me.drex.fafpatch.impl.entity.model.EntityModelHelper;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
@@ -91,9 +91,9 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
                 if (stack != null) {
                     var element = oldElements.get(part);
                     if (element == null) {
-                        element = EntityModelHelper.createItemDisplay(stack);
+                        element = EntityModelHelper.createItemDisplay(stack.get());
                     } else {
-                        element.setItem(stack);
+                        element.setItem(stack.get());
                         oldElements.remove(part);
                     }
                     EntityModelHelper.updateDisplayElement(element, this.entity);
@@ -148,14 +148,17 @@ public class SimpleElementHolder<T extends Entity, X extends EntityModel<T>> ext
                 var map = hurt ? model.damagedModelParts() : model.modelParts();
 
                 for (var entry : elements.get(model).entrySet()) {
-                    entry.getValue().setItem(map.apply(entry.getKey()));
+                    var stack = map.apply(entry.getKey());
+                    if (stack != null) {
+                        entry.getValue().setItem(stack.get());
+                    }
                 }
             }
             EntityModelTransforms.livingEntityTransform(livingEntity, STACK, matrix4f -> matrix4f.scale(getEntityScale()));
         }
 
         model.model().setupAnim(this.entity);
-        model.model().renderServerSide(STACK, (part, matrix4f, hidden) -> updateElement(model, part, matrix4f, hidden));
+        model.model().render(STACK, (part, matrix4f, hidden) -> updateElement(model, part, matrix4f, hidden));
         renderSpecialLayers(STACK);
 
         STACK.popMatrix();

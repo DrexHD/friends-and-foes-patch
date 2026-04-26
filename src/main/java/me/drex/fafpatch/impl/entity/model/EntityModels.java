@@ -4,14 +4,14 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariant;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.entity.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.PolyModelInstance;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.EntityModel;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.LayerDefinition;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.MeshTransformer;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import me.drex.fafpatch.impl.entity.holder.MoobloomElementHolder;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.PolyModelInstance;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.LayerDefinition;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.MeshTransformer;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
 import me.drex.fafpatch.impl.entity.model.entity.*;
 import me.drex.fafpatch.impl.res.ResourcePackGenerator;
 import net.minecraft.util.Util;
@@ -27,12 +27,17 @@ public interface EntityModels {
     Map<MoobloomElementHolder.RenderState, PolyModelInstance<CowModel<MoobloomEntity>>> MOOBLOOM = new HashMap<>() {{
         for (boolean isBaby : new boolean[]{false, true}) {
             for (MoobloomVariant moobloomVariant : MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariants()) {
-                LayerDefinition modelData = CowModel.createBodyLayer();
+                LayerDefinition modelData;
+                String path;
                 if (isBaby) {
-                    modelData = modelData.apply(CowModel.BABY_TRANSFORMER);
+                    modelData = BabyCowModel.createBodyLayer();
+                    path = "entity/moobloom/moobloom_" + moobloomVariant.getName() + "_baby";
+                } else {
+                    modelData = CowModel.createBodyLayer();
+                    path = "entity/moobloom/moobloom_" + moobloomVariant.getName();
                 }
 
-                put(new MoobloomElementHolder.RenderState(moobloomVariant.getName(), isBaby), create(CowModel::new, modelData, FriendsAndFoes.makeID("entity/moobloom/" + moobloomVariant.getName() + "_moobloom")));
+                put(new MoobloomElementHolder.RenderState(moobloomVariant.getName(), isBaby), create(CowModel::new, modelData, FriendsAndFoes.makeID(path)));
             }
         }
     }};

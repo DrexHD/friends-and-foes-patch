@@ -2,7 +2,7 @@ package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 
 public class TuffGolemEntityModel extends EntityModel<TuffGolemEntity> {
     private static final String MODEL_PART_BODY = "body";

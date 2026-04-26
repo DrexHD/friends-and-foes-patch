@@ -1,7 +1,7 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.IceologerIceChunkEntity;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 
 public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkEntity> {
     private static final String MODEL_PART_FIRST_FULL_BLOCK = "firstFullBlock";

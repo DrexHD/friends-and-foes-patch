@@ -1,7 +1,7 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 

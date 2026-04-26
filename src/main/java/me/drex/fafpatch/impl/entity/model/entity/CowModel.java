@@ -1,14 +1,9 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
-import me.drex.fafpatch.impl.entity.model.BabyModelTransform;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 import net.minecraft.world.entity.animal.cow.AbstractCow;
 
-import java.util.Set;
-
 public class CowModel<T extends AbstractCow> extends QuadrupedModel<T> {
-    public static final MeshTransformer BABY_TRANSFORMER = new BabyModelTransform(false, 8.0F, 6.0F, Set.of("head"));
-    private static final int LEG_SIZE = 12;
 
     public CowModel(ModelPart modelPart) {
         super(modelPart);

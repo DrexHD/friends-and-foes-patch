@@ -62,7 +62,7 @@ public abstract class FriendsAndFoesBlocksMixin {
     }
 
     @ModifyArg(
-        method = "lambda$registerBlock$32",
+        method = "lambda$registerBlock$0",
         at = @At(
             value = "INVOKE",
             target = "Ljava/util/function/Function;apply(Ljava/lang/Object;)Ljava/lang/Object;"

@@ -16,13 +16,13 @@ public abstract class EntitySerializersMixin {
         method = "register",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/fabricmc/fabric/api/object/builder/v1/entity/FabricTrackedDataRegistry;register(Lnet/minecraft/resources/Identifier;Lnet/minecraft/network/syncher/EntityDataSerializer;)V"
+            target = "Lnet/fabricmc/fabric/api/object/builder/v1/entity/FabricEntityDataRegistry;register(Lnet/minecraft/resources/Identifier;Lnet/minecraft/network/syncher/EntityDataSerializer;)V"
         )
     )
     public void dontRegister(Identifier id, EntityDataSerializer<?> handler, Operation<Void> original) {
         original.call(id, handler);
         if (id.getNamespace().equals(FriendsAndFoes.MOD_ID)) {
-            RegistrySyncUtils.setServerEntry(FabricTrackedDataRegistryImplAccessor.getHandlerRegistry(), handler);
+            RegistrySyncUtils.setServerEntry(FabricEntityDataRegistryImplAccessor.getHandlerRegistry(), handler);
         }
     }
 }

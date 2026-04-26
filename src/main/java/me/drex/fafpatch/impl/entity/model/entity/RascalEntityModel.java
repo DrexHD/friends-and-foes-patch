@@ -2,7 +2,7 @@ package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 
 public final class RascalEntityModel extends EntityModel<RascalEntity> {
     private static final String MODEL_PART_HEAD = "head";

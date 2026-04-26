@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import me.drex.fafpatch.impl.entity.animation.animator.ModelPartAnimator;
 import me.drex.fafpatch.impl.entity.model.animation.ModelPartModelAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 
@@ -65,7 +65,16 @@ public class GlareEntityModel extends EntityModel<GlareEntity> {
 
         head.addOrReplaceChild(MODEL_PART_EYES, CubeListBuilder.create().texOffs(33, 0).addBox(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)).texOffs(33, 0).addBox(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 5.0F, -3.0F));
         head.addOrReplaceChild(MODEL_TOP_AZALEA, CubeListBuilder.create().texOffs(0, 18).addBox(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        head.addOrReplaceChild(MODEL_BOTTOM_AZALEA, CubeListBuilder.create().texOffs(18, 101).mirror().addBox(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(-0.01F)).mirror(false).texOffs(0, 40).addBox(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 8.0F, 0.0F));
+        head.addOrReplaceChild(MODEL_BOTTOM_AZALEA, CubeListBuilder.create()
+            // TODO causes some UVs to go outside the 64x128 texture
+            /*.texOffs(18, 101)
+            .mirror()
+            .addBox(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(-0.01F))*/
+            .mirror(false)
+            .texOffs(0, 40)
+            .addBox(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new CubeDeformation(0.01F)),
+            PartPose.offset(0.0F, 8.0F, 0.0F)
+        );
 
         PartDefinition bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
         bottomAzalea.addOrReplaceChild(MODEL_SECOND_LAYER, CubeListBuilder.create().texOffs(0, 64).addBox(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 1.0F, 0.0F));

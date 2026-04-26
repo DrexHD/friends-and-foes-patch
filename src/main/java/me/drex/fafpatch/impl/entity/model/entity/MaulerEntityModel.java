@@ -3,7 +3,7 @@ package me.drex.fafpatch.impl.entity.model.entity;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
 import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 
 public final class MaulerEntityModel extends EntityModel<MaulerEntity> {
     private static final String MODEL_PART_HEAD = "head";

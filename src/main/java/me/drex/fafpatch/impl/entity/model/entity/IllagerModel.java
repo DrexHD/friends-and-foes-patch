@@ -1,7 +1,7 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.monster.illager.AbstractIllager;
@@ -84,7 +84,7 @@ public class IllagerModel<S extends AbstractIllager> extends EntityModel<S> /*im
         AbstractIllager.IllagerArmPose illagerArmPose = illagerEntity.getArmPose();
         if (illagerArmPose == AbstractIllager.IllagerArmPose.ATTACKING) {
             if (illagerEntity.getMainHandItem().isEmpty()) {
-                AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, illagerEntity.attackAnim, illagerEntity.tickCount);
+                AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, illagerEntity);
             } else {
                 AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, illagerEntity.getMainArm(), illagerEntity.attackAnim, illagerEntity.tickCount);
             }
@@ -147,7 +147,7 @@ public class IllagerModel<S extends AbstractIllager> extends EntityModel<S> /*im
 //
 
     public void translateToHand(HumanoidArm humanoidArm, Matrix4fStack stack) {
-        this.root.applyTransform(stack);
-        this.getArm(humanoidArm).applyTransform(stack);
+        this.root.translateAndRotate(stack);
+        this.getArm(humanoidArm).translateAndRotate(stack);
     }
 }

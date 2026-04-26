@@ -53,7 +53,7 @@ public class MoobloomElementHolder extends SimpleElementHolder<MoobloomEntity, C
 
             // Head
             stack.pushMatrix();
-            getMainModel().model().getHead().applyTransform(stack);
+            getMainModel().model().getHead().translateAndRotate(stack);
             stack.translate(0.09f, -0.6f, -0.185f);
             stack.scale(-scaleFactor, -scaleFactor, scaleFactor);
             stack.translate(-0.5f, yOffset, -0.5f);

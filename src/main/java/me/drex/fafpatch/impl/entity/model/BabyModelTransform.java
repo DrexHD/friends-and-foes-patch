@@ -1,9 +1,9 @@
 package me.drex.fafpatch.impl.entity.model;
 
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.MeshDefinition;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.MeshTransformer;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.PartDefinition;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.PartPose;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.MeshDefinition;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.MeshTransformer;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.PartDefinition;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.PartPose;
 
 import java.util.Map;
 import java.util.Set;

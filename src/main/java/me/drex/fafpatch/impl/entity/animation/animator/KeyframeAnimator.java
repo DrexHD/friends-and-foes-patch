@@ -3,8 +3,8 @@ package me.drex.fafpatch.impl.entity.animation.animator;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.EntityModel;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.EntityModel;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 

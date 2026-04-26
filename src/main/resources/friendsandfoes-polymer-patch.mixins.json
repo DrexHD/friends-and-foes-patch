@@ -7,7 +7,7 @@
     "mod.entity.LivingEntityMixin",
     "mod.entity.VillagerMixin",
     "mod.registry.EntitySerializersMixin",
-    "mod.registry.FabricTrackedDataRegistryImplAccessor",
+    "mod.registry.FabricEntityDataRegistryImplAccessor",
     "mod.registry.FriendsAndFoesBlocksMixin",
     "mod.registry.FriendsAndFoesEntityTypesMixin",
     "mod.registry.FriendsAndFoesItemGroupsMixin",

@@ -1,7 +1,7 @@
 package me.drex.fafpatch.impl.entity;
 
+import eu.pb4.polymer.virtualentity.api.data.EntityData;
 import eu.pb4.polymer.virtualentity.api.elements.GenericEntityElement;
-import eu.pb4.polymer.virtualentity.api.tracker.EntityTrackedData;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
@@ -17,9 +17,9 @@ import java.util.function.Consumer;
 
 public class LeadAttachmentElement extends GenericEntityElement {
     public LeadAttachmentElement() {
-        this.dataTracker.set(EntityTrackedData.SILENT, true);
-        this.dataTracker.set(EntityTrackedData.NO_GRAVITY, true);
-        this.dataTracker.set(EntityTrackedData.FLAGS, (byte) ((1 << EntityTrackedData.INVISIBLE_FLAG_INDEX)));
+        this.syncedData.set(EntityData.SILENT, true);
+        this.syncedData.set(EntityData.NO_GRAVITY, true);
+        this.syncedData.set(EntityData.FLAGS, (byte) ((1 << EntityData.INVISIBLE_FLAG_INDEX)));
     }
 
 

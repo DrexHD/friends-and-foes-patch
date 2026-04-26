@@ -3,8 +3,8 @@ package me.drex.fafpatch.impl.entity.model.animation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimationType;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.ModelPartAnimationContext;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import me.drex.fafpatch.impl.entity.animation.animator.ModelPartAnimator;
-import me.drex.fafpatch.impl.entity.model.emuvanilla.model.ModelPart;
 import org.joml.Vector3f;
 
 public final class ModelPartModelAnimator
