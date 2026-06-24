@@ -7,6 +7,7 @@ import me.drex.fafpatch.impl.entity.holder.*;
 import me.drex.fafpatch.impl.entity.model.EntityModels;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 
 import java.util.IdentityHashMap;
 import java.util.function.Function;
@@ -26,7 +27,7 @@ public class AnimatedEntities {
         registerEntity(FriendsAndFoesEntityTypes.RASCAL.get(), EntityModels.RASCAL, SimpleElementHolder::new);
         registerEntity(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), EntityModels.TUFF_GOLEM, TuffGolemElementHolder::new);
         registerEntity(FriendsAndFoesEntityTypes.WILDFIRE.get(), EntityModels.WILDFIRE, SimpleElementHolder::new);
-        registerEntity(EntityType.VILLAGER, EntityModels.VILLAGER, VillagerElementHolder::new);
+        registerEntity(EntityTypes.VILLAGER, EntityModels.VILLAGER, VillagerElementHolder::new);
     }
 
     public static <T extends Entity, X extends EntityModel<T>> void registerEntity(EntityType<T> type, PolyModelInstance<X> defaultModel, Function<T, ? extends SimpleElementHolder<T, X>> factory) {

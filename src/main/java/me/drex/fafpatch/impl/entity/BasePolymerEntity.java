@@ -17,6 +17,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -55,7 +56,7 @@ public record BasePolymerEntity(Entity entity) implements PolymerEntity {
 
     @Override
     public EntityType<?> getPolymerEntityType(PacketContext packetContext) {
-        return EntityType.ITEM_DISPLAY;
+        return EntityTypes.ITEM_DISPLAY;
     }
 
     @Override

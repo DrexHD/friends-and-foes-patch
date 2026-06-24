@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public record StateCopyBlock(Block clientBlock) implements FactoryBlock {
-    public static final StateCopyBlock LIGHTNING_ROD = new StateCopyBlock(Blocks.LIGHTNING_ROD);
-
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
         return clientBlock.withPropertiesOf(state);

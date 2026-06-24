@@ -40,12 +40,6 @@ public abstract class FriendsAndFoesBlocksMixin {
         PolymerBlock overlay = switch (block) {
             case BeehiveBlock ignored -> BaseFactoryBlock.BARRIER;
             case ButtonBlock ignored -> StateCopyFactoryBlock.BUTTON;
-            case LightningRodBlock ignored -> {
-                if (id.equals("waxed_lightning_rod")) {
-                    yield StateCopyBlock.LIGHTNING_ROD;
-                }
-                yield StateCopyFactoryBlock.LIGHTNING_ROD;
-            }
             case CrabEggBlock ignored -> StateCopyFactoryBlock.EGG;
             case FlowerBlock ignored -> BaseFactoryBlock.PLANT;
             case FlowerPotBlock ignored -> StateCopyFactoryBlock.POT;

@@ -25,7 +25,6 @@ public record StateCopyFactoryBlock(Block clientBlock,
     public static final StateCopyFactoryBlock EGG = new StateCopyFactoryBlock(Blocks.TURTLE_EGG, ShiftyBlockStateModel::longRange);
     public static final StateCopyFactoryBlock BUTTON = new StateCopyFactoryBlock(Blocks.STONE_BUTTON, ShiftyBlockStateModel::longRange);
     public static final StateCopyFactoryBlock POT = new StateCopyFactoryBlock(Blocks.FLOWER_POT, ShiftyBlockStateModel::longRange);
-    public static final StateCopyFactoryBlock LIGHTNING_ROD = new StateCopyFactoryBlock(Blocks.LIGHTNING_ROD, ShiftyBlockStateModel::longRange);
 
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {

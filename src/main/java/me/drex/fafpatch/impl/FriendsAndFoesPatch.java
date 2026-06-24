@@ -12,7 +12,7 @@ import me.drex.fafpatch.impl.entity.BasePolymerEntity;
 import me.drex.fafpatch.impl.res.ResourcePackGenerator;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class FriendsAndFoesPatch implements ModInitializer {
         });
         ResourcePackGenerator.setup();
 
-        PolymerEntityUtils.registerPolymerEntityConstructor(EntityType.VILLAGER, villager -> {
+        PolymerEntityUtils.registerPolymerEntityConstructor(EntityTypes.VILLAGER, villager -> {
             if (villager.getVillagerData().profession().is(FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY)) {
                 return new BasePolymerEntity(villager);
             } else {

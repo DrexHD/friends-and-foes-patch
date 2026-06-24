@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.26-0] - 2026-06-24
+### Changed
+- Update friends and foes to 4.0.26
+- Updated to 26.2
+
 ## [4.0.25-0] - 2026-02-08
 ### Changed
 - Update friends and foes to 4.0.25

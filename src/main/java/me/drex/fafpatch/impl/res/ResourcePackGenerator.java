@@ -27,7 +27,7 @@ import java.util.*;
 import static me.drex.fafpatch.impl.FriendsAndFoesPatch.id;
 
 public class ResourcePackGenerator {
-    private static final Set<String> EXPANDABLE = Set.of("button", "egg", "lightning_rod");
+    private static final Set<String> EXPANDABLE = Set.of("button", "egg");
     private static final Vec3 EXPANSION = new Vec3(0.06, 0.06, 0.06);
     public static final Int2ObjectMap<Identifier> LEVEL_LOCATIONS = Util.make(new Int2ObjectOpenHashMap<>(), int2ObjectOpenHashMap -> {
         int2ObjectOpenHashMap.put(1, Identifier.withDefaultNamespace("stone"));
