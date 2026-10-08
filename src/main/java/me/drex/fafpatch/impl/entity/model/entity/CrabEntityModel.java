@@ -1,9 +1,12 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
-import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
-import me.drex.fafpatch.impl.entity.model.animation.ModelPartModelAnimator;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.animation.KeyframeAnimation;
+import me.drex.fafpatch.impl.entity.model.VersionedEntityModel;
+import me.drex.fafpatch.impl.entity.model.animation.CrabAnimations;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
 
 public class CrabEntityModel extends EntityModel<CrabEntity> {
     public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(CrabEntity.BABY_SCALE);
@@ -49,6 +52,11 @@ public class CrabEntityModel extends EntityModel<CrabEntity> {
     private final ModelPart rightBackLegJoint;
     private final ModelPart rightBackLeg;
 
+    private final KeyframeAnimation idleAnimation;
+    private final KeyframeAnimation walkAnimation;
+    private final KeyframeAnimation waveAnimation;
+    private final KeyframeAnimation danceAnimation;
+
     public CrabEntityModel(ModelPart root) {
         super(root);
 
@@ -72,6 +80,11 @@ public class CrabEntityModel extends EntityModel<CrabEntity> {
         this.rightMiddleLeg = this.rightMiddleLegJoint.getChild(RIGHT_MIDDLE_LEG);
         this.rightBackLegJoint = this.main.getChild(RIGHT_BACK_LEG_JOINT);
         this.rightBackLeg = this.rightBackLegJoint.getChild(RIGHT_BACK_LEG);
+
+        this.idleAnimation = CrabAnimations.IDLE.bake(root);
+        this.walkAnimation = CrabAnimations.WALK.bake(root);
+        this.waveAnimation = CrabAnimations.WAVE.bake(root);
+        this.danceAnimation = CrabAnimations.DANCE.bake(root);
     }
 
     public static LayerDefinition getTexturedModelData() {
@@ -107,60 +120,33 @@ public class CrabEntityModel extends EntityModel<CrabEntity> {
     @Override
     public void setupAnim(CrabEntity crabEntity) {
         super.setupAnim(crabEntity);
-        float limbAngle = crabEntity.walkAnimation.position(1);
-        float limbDistance = crabEntity.walkAnimation.speed(1);
-        var animationProgress = crabEntity.tickCount;
 
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        this.updateKeyframeAnimations(crabEntity, limbAngle, limbDistance, animationProgress);
-        this.updateModelPartAnimations(crabEntity);
+        this.updateKeyframeAnimations(crabEntity.idleAnimationState, crabEntity.waveAnimationState, crabEntity.danceAnimationState, crabEntity.walkAnimation.position(1), crabEntity.walkAnimation.speed(1), crabEntity.tickCount);
+        this.animateClimbing(crabEntity.getSize().getScaleModifier(), crabEntity.getClimbProgress(0));
     }
 
-    public void updateKeyframeAnimations(
-        CrabEntity crab,
-        float limbAngle,
-        float limbDistance,
-        float animationProgress
+    private void updateKeyframeAnimations(
+        AnimationState idleAnimationState,
+        AnimationState waveAnimationState,
+        AnimationState danceAnimationState,
+        float limbSwing,
+        float limbSwingAmount,
+        float ageInTicks
     ) {
-        var movementAnimation = crab.getMovementAnimation();
-        var animations = crab.getTrackedAnimations();
-        var animationContextTracker = crab.getAnimationContextTracker();
-        var currentTick = crab.tickCount;
-        var animationSpeedModifier = 1.0F;
-
-        KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.5F, animationSpeedModifier);
-        KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+        VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+        VersionedEntityModel.animate(this, this.waveAnimation, waveAnimationState, ageInTicks);
+        VersionedEntityModel.animate(this, this.danceAnimation, danceAnimationState, ageInTicks);
+        VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
     }
 
-    public void updateModelPartAnimations(
-        CrabEntity crab
+    private void animateClimbing(
+        final float scaleModifier,
+        final float climbProgress
     ) {
-        float scaleModifier = crab.getSize().getScaleModifier();
+        this.main.y = Mth.lerp(climbProgress, 24.0F, 17.0F * scaleModifier);
+        this.main.z = Mth.lerp(climbProgress, 0.0F, -9.0F * scaleModifier);
+        this.main.yRot = Mth.lerp(climbProgress, -1.5708F, 0.0F);
 
-        float pivotX = 0.0F;
-        float pivotY = crab.onClimbable() ? 17.0F * scaleModifier:24.0F;
-        float pivotZ = crab.onClimbable() ? -9.0F * scaleModifier:0.0F;
-        float pitch = -1.5708F;
-        float yaw = crab.onClimbable() ? 0.0F:-1.5708F;
-        float roll = 1.5708F;
-
-        ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(
-            crab.getAnimationContextTracker(),
-            this.main,
-            crab.tickCount,
-            pivotX,
-            pivotY,
-            pivotZ,
-            20
-        );
-        ModelPartModelAnimator.animateModelPartRotationBasedOnTicks(
-            crab.getAnimationContextTracker(),
-            this.main,
-            crab.tickCount,
-            pitch,
-            yaw,
-            roll,
-            20
-        );
     }
 }

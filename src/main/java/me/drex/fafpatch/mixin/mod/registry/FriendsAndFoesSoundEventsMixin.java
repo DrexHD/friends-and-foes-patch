@@ -13,11 +13,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FriendsAndFoesSoundEvents.class)
 public abstract class FriendsAndFoesSoundEventsMixin {
     @Inject(
-        method = "registerSoundEvent",
+        method = "registerSoundEvent(Ljava/lang/String;)Lcom/teamresourceful/resourcefullib/common/registry/RegistryEntry;",
         remap = false,
         at = @At("TAIL")
     )
     private static void polymerify(String path, CallbackInfoReturnable<RegistryEntry<SoundEvent>> cir) {
+        PolymerSoundEvent.registerOverlay(cir.getReturnValue().get());
+    }
+
+    @Inject(
+        method = "registerSoundEvent(Ljava/lang/String;F)Lcom/teamresourceful/resourcefullib/common/registry/RegistryEntry;",
+        remap = false,
+        at = @At("TAIL")
+    )
+    private static void polymerify(String path, float range, CallbackInfoReturnable<RegistryEntry<SoundEvent>> cir) {
         PolymerSoundEvent.registerOverlay(cir.getReturnValue().get());
     }
 

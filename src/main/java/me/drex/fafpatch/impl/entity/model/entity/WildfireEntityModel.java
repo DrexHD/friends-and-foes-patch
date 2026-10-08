@@ -1,10 +1,11 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.EntityValueExtraction;
-import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.animation.KeyframeAnimation;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
+import me.drex.fafpatch.impl.entity.model.VersionedEntityModel;
+import me.drex.fafpatch.impl.entity.model.animation.WildfireAnimations;
 
 import java.util.List;
 
@@ -29,6 +30,10 @@ public final class WildfireEntityModel extends EntityModel<WildfireEntity> {
     private final ModelPart leftShield;
 
     private final List<ModelPart> shieldsModelParts;
+    private final KeyframeAnimation idleAnimation;
+    private final KeyframeAnimation shieldRotationAnimation;
+    private final KeyframeAnimation walkAnimation;
+    private final KeyframeAnimation shockwaveAnimation;
 
     public WildfireEntityModel(ModelPart root) {
         super(root);
@@ -44,6 +49,10 @@ public final class WildfireEntityModel extends EntityModel<WildfireEntity> {
         this.leftShield = this.shields.getChild(MODEL_PART_LEFT_SHIELD);
 
         this.shieldsModelParts = this.shields.getAllParts();
+        this.idleAnimation = WildfireAnimations.IDLE.bake(root);
+        this.shieldRotationAnimation = WildfireAnimations.SHIELD_ROTATION.bake(root);
+        this.walkAnimation = WildfireAnimations.WALK.bake(root);
+        this.shockwaveAnimation = WildfireAnimations.SHOCKWAVE.bake(root);
     }
 
     public static LayerDefinition getTexturedModelData() {
@@ -70,8 +79,6 @@ public final class WildfireEntityModel extends EntityModel<WildfireEntity> {
     public void setupAnim(WildfireEntity wildfire) {
         float limbAngle = wildfire.walkAnimation.position(1);
         float limbDistance = wildfire.walkAnimation.speed(1);
-        var animationProgress = wildfire.tickCount;
-
         var headYaw = EntityValueExtraction.getRelativeHeadYaw(wildfire) * ((float)Math.PI / 180);
         var headPitch = wildfire.getXRot();
 
@@ -82,26 +89,12 @@ public final class WildfireEntityModel extends EntityModel<WildfireEntity> {
         }
 
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        this.updateKeyframeAnimations(wildfire, limbAngle, limbDistance, animationProgress);
+        VersionedEntityModel.animate(this, this.idleAnimation, wildfire.idleAnimationState, wildfire.tickCount);
+        VersionedEntityModel.animate(this, this.shieldRotationAnimation, wildfire.shieldRotationAnimationState, wildfire.tickCount);
+        VersionedEntityModel.animate(this, this.shockwaveAnimation, wildfire.shockwaveAnimationState, wildfire.tickCount);
+        VersionedEntityModel.animateWalk(this, this.walkAnimation, limbAngle, limbDistance, 1.0F, 1.0F);
 
         this.head.yRot = headYaw * 0.017453292F;
         this.head.xRot = headPitch * 0.017453292F;
-    }
-
-    public void updateKeyframeAnimations(
-        WildfireEntity wildfire,
-        float limbAngle,
-        float limbDistance,
-        float animationProgress
-    ) {
-        var movementAnimation = wildfire.getMovementAnimation();
-        var animations = wildfire.getTrackedAnimations();
-        var animationContextTracker = wildfire.getAnimationContextTracker();
-        var currentTick = wildfire.tickCount;
-        var animationSpeedModifier = wildfire.getAnimationSpeedModifier();
-
-        KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.0F, 1.0F, animationSpeedModifier);
-        KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, WildfireAnimations.SHIELD_ROTATION, currentTick, animationProgress, animationSpeedModifier);
-        KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
     }
 }

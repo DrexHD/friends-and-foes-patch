@@ -25,7 +25,7 @@ public class GlareElementHolder extends SimpleElementHolder<GlareEntity, GlareEn
     private static boolean shouldRenderFlowers(GlareEntity entity) {
         String string = ChatFormatting.stripFormatting(entity.getName().getString());
 
-        return "Anna".equals(string)
+        return !entity.isInvisible() && "Anna".equals(string)
             || entity.isTame();
     }
 }

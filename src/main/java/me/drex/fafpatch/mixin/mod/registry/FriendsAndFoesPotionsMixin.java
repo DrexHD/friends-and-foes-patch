@@ -16,7 +16,10 @@ public abstract class FriendsAndFoesPotionsMixin {
         method = {
             "lambda$static$0",
             "lambda$static$1",
-            "lambda$static$2"
+            "lambda$static$2",
+            "lambda$static$3",
+            "lambda$static$4",
+            "lambda$static$5",
         },
         at = @At(
             value = "NEW",

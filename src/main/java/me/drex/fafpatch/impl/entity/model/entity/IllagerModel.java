@@ -86,7 +86,7 @@ public class IllagerModel<S extends AbstractIllager> extends EntityModel<S> /*im
             if (illagerEntity.getMainHandItem().isEmpty()) {
                 AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, illagerEntity);
             } else {
-                AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, illagerEntity.getMainArm(), illagerEntity.attackAnim, illagerEntity.tickCount);
+                AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, illagerEntity.getMainArm(), illagerEntity.getSwingAnimation(1.0F), illagerEntity.tickCount);
             }
         } else if (illagerArmPose == AbstractIllager.IllagerArmPose.SPELLCASTING) {
             this.rightArm.z = 0.0f;

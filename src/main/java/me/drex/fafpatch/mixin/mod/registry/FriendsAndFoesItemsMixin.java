@@ -12,18 +12,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Mixin(FriendsAndFoesItems.class)
 public abstract class FriendsAndFoesItemsMixin {
     @Inject(
-        method = "registerItem",
+        method = "registerItem(Ljava/lang/String;Ljava/util/function/BooleanSupplier;Ljava/util/function/Function;Ljava/util/function/Supplier;)Lcom/teamresourceful/resourcefullib/common/registry/RegistryEntry;",
         remap = false,
         at = @At("TAIL")
     )
     private static void polymerify(
-        String id, Function<Item.Properties, Item> factory, Supplier<Item.Properties> getter,
+        String id, BooleanSupplier isEnabled, Function<Item.Properties, Item> factory, Supplier<Item.Properties> getter,
         CallbackInfoReturnable<RegistryEntry<Item>> cir
     ) {
         RegistryEntry<Item> registryEntry = cir.getReturnValue();

@@ -3,8 +3,7 @@ package me.drex.fafpatch.impl.entity.animation.animator;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.ModelPart;
 import org.joml.Vector3f;
 
-public final class ModelPartAnimator
-{
+public final class ModelPartAnimator {
 	public static void setXPosition(ModelPart modelPart, float x) {
 		modelPart.x = x;
 	}
@@ -17,10 +16,7 @@ public final class ModelPartAnimator
 		modelPart.z = z;
 	}
 
-	public static void setPosition(
-		ModelPart modelPart,
-		Vector3f position
-	) {
+	public static void setPosition(ModelPart modelPart, Vector3f position) {
 		modelPart.setPos(position.x(), position.y(), position.z());
 	}
 
@@ -36,10 +32,7 @@ public final class ModelPartAnimator
 		modelPart.zRot = z;
 	}
 
-	public static void setRotation(
-		ModelPart modelPart,
-		Vector3f rotation
-	) {
+	public static void setRotation(ModelPart modelPart, Vector3f rotation) {
 		modelPart.setRotation(rotation.x(), rotation.y(), rotation.z());
 	}
 }

@@ -1,6 +1,7 @@
 package me.drex.fafpatch.mixin.mod.registry;
 
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
+import com.faboslav.friendsandfoes.common.block.PenguinEggBlock;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import eu.pb4.factorytools.api.block.model.generic.BlockStateModelManager;
@@ -41,6 +42,7 @@ public abstract class FriendsAndFoesBlocksMixin {
             case BeehiveBlock ignored -> BaseFactoryBlock.BARRIER;
             case ButtonBlock ignored -> StateCopyFactoryBlock.BUTTON;
             case CrabEggBlock ignored -> StateCopyFactoryBlock.EGG;
+            case PenguinEggBlock ignored -> BaseFactoryBlock.BARRIER;
             case FlowerBlock ignored -> BaseFactoryBlock.PLANT;
             case FlowerPotBlock ignored -> StateCopyFactoryBlock.POT;
             default -> {

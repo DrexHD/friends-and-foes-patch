@@ -1,8 +1,10 @@
 package me.drex.fafpatch.impl.entity.model.entity;
 
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
-import me.drex.fafpatch.impl.entity.model.animation.KeyframeModelAnimator;
+import eu.pb4.factorytools.api.virtualentity.emuvanilla.animation.KeyframeAnimation;
 import eu.pb4.factorytools.api.virtualentity.emuvanilla.model.*;
+import me.drex.fafpatch.impl.entity.model.VersionedEntityModel;
+import me.drex.fafpatch.impl.entity.model.animation.RascalAnimations;
 
 public final class RascalEntityModel extends EntityModel<RascalEntity> {
     private static final String MODEL_PART_HEAD = "head";
@@ -21,6 +23,10 @@ public final class RascalEntityModel extends EntityModel<RascalEntity> {
     private final ModelPart rightArm;
     private final ModelPart leftLeg;
     private final ModelPart rightLeg;
+    private final KeyframeAnimation idleAnimation;
+    private final KeyframeAnimation nodAnimation;
+    private final KeyframeAnimation giveRewardAnimation;
+    private final KeyframeAnimation walkAnimation;
 
     public RascalEntityModel(ModelPart root) {
         super(root);
@@ -33,6 +39,11 @@ public final class RascalEntityModel extends EntityModel<RascalEntity> {
         this.rightArm = this.root.getChild(MODEL_PART_RIGHT_ARM);
         this.leftLeg = this.root.getChild(MODEL_PART_LEFT_LEG);
         this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
+
+        this.idleAnimation = RascalAnimations.IDLE.bake(root);
+        this.nodAnimation = RascalAnimations.NOD.bake(root);
+        this.giveRewardAnimation = RascalAnimations.GIVE_REWARD.bake(root);
+        this.walkAnimation = RascalAnimations.WALK.bake(root);
     }
 
     public static LayerDefinition getTexturedModelData() {
@@ -57,24 +68,10 @@ public final class RascalEntityModel extends EntityModel<RascalEntity> {
     public void setupAnim(RascalEntity rascal) {
         float limbAngle = rascal.walkAnimation.position(1);
         float limbDistance = rascal.walkAnimation.speed(1);
-        var animationProgress = rascal.tickCount;
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        this.updateAnimations(rascal, limbAngle, limbDistance, animationProgress);
-    }
-
-    public void updateAnimations(
-        RascalEntity rascal,
-        float limbAngle,
-        float limbDistance,
-        float animationProgress
-    ) {
-        var movementAnimation = rascal.getMovementAnimation();
-        var animations = rascal.getTrackedAnimations();
-        var animationContextTracker = rascal.getAnimationContextTracker();
-        var currentTick = rascal.tickCount;
-        var animationSpeedModifier = 1.0F;
-
-        KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.5F, 2.5F, animationSpeedModifier);
-        KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+        VersionedEntityModel.animate(this, this.idleAnimation, rascal.idleAnimationState, rascal.tickCount);
+        VersionedEntityModel.animate(this, this.nodAnimation, rascal.nodAnimationState, rascal.tickCount);
+        VersionedEntityModel.animate(this, this.giveRewardAnimation, rascal.giveRewardAnimationState, rascal.tickCount);
+        VersionedEntityModel.animateWalk(this, this.walkAnimation, limbAngle, limbDistance, 1.5F, 2.5F);
     }
 }

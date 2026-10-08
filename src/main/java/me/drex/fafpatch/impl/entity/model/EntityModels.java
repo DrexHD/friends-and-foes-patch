@@ -44,6 +44,11 @@ public interface EntityModels {
 
     PolyModelInstance<CrabEntityModel> CRAB = create(CrabEntityModel::new, CrabEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/crab/crab"));
 
+    PolyModelInstance<PenguinEntityModel> PENGUIN = create(PenguinEntityModel::new, PenguinEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/penguin/penguin"));
+    PolyModelInstance<BarnacleEntityModel> BARNACLE = create(BarnacleEntityModel::new, BarnacleEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/barnacle/barnacle"));
+    PolyModelInstance<BarnacleEntityModel> BARNACLE_KELP = create(BarnacleEntityModel::new, BarnacleEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/barnacle/barnacle_kelp"));
+    PolyModelInstance<BarnacleEntityModel> BARNACLE_KELP_HEAD = create(BarnacleEntityModel::new, BarnacleEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/barnacle/barnacle_kelp_head_1"));
+
     PolyModelInstance<GlareEntityModel> GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/glare/glare"));
     PolyModelInstance<GlareEntityModel> FLOWERING_GLARE = create(GlareEntityModel::new, GlareEntityModel.getTexturedModelData(), FriendsAndFoes.makeID("entity/glare/flowering_glare"));
 
