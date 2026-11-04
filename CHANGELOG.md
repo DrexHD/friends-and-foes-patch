@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.4-0] - 2026-11-04
+### Changed
+- Update friends and foes to 5.0.4
+
+### Fixed
+- Citadel explorer maps not working
+
 ## [5.0.3-0] - 2026-10-22
 ### Changed
 - Update friends and foes to 5.0.3

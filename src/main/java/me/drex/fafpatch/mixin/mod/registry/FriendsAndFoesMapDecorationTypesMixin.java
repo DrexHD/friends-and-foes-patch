@@ -3,10 +3,11 @@ package me.drex.fafpatch.mixin.mod.registry;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMapDecorationTypes;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
+import eu.pb4.polymer.core.api.utils.PolymerSyncedObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.saveddata.maps.MapDecorationType;
+import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -21,7 +22,7 @@ public abstract class FriendsAndFoesMapDecorationTypesMixin {
     )
     private static MapDecorationType polymerify(Identifier assetId, boolean showOnItemFrame, boolean trackCount, Operation<MapDecorationType> original) {
         var registryEntry = original.call(assetId, showOnItemFrame, trackCount);
-        RegistrySyncUtils.setServerEntry(BuiltInRegistries.MAP_DECORATION_TYPE, registryEntry);
+        PolymerSyncedObject.setSyncedObject(BuiltInRegistries.MAP_DECORATION_TYPE, registryEntry, (_, _) -> MapDecorationTypes.RED_X.value());
         return registryEntry;
     }
 }
